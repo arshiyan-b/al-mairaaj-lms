@@ -1,0 +1,57 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+
+Route::post('login', [LoginController::class, 'authenticate'])->name('admin.auth');
+
+Route::middleware('auth')->group(function () {
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/students', [AdminController::class, 'student'])->name('admin.student');
+    Route::post('/admin/students/store', [AdminController::class, 'student_store'])->name('admin.student_store');
+    Route::post('/admin/students/user', [AdminController::class, 'student_user'])->name('admin.student_user');
+ 
+    Route::get('/admin/teachers', [AdminController::class, 'teacher'])->name('admin.teacher');
+    Route::post('/admin/teachers/store', [AdminController::class, 'teacher_store'])->name('admin.teacher_store');
+    Route::post('/admin/teachers/user', [AdminController::class, 'teacher_user'])->name('admin.teacher_user');
+
+    Route::get('/admin/pearson/books', [AdminController::class, 'pearson_books'])->name('admin.pearson_books');
+    Route::post('/admin/pearson/books', [AdminController::class, 'pearson_books_store'])->name('admin.pearson_books_store');
+
+    Route::get('/admin/pearson/igcse/courses', [AdminController::class, 'pearson_igcse_courses'])->name('admin.pearson_igcse_courses');
+    Route::post('/admin/pearson/igcse/courses/store', [AdminController::class, 'pearson_courses_store'])->name('admin.pearson_igcse_courses_store');
+
+    Route::get('admin/pearson/igcse/courses/{id}', [AdminController::class, 'pearson_courses_show'])->name('admin.pearson_course_details');
+
+
+});
+
+
+// Teacher Routes
+Route::middleware('auth',)->group(function () {
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+
+    Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+});
+
+// Student Routes
+Route::middleware('auth')->group(function () {
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+});
