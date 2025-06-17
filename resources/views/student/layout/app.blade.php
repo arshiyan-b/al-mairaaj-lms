@@ -233,7 +233,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="{{ route('student.dashboard') }}" class="sidebar-link">
                         <i class="bi bi-clipboard-data fs-4"></i>
                         <span class="fs-6">Dashboard</span>
                     </a>
