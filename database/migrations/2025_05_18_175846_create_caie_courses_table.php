@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pearson_courses', function (Blueprint $table) {
+        Schema::create('caie_courses', function (Blueprint $table) {
             $table->increments('course_id');
             $table->string('course_title', 45);
             $table->string('course_description', 255);
-            $table->string('course_subject', 20); 
-            $table->string('course_qualification', 20); 
-            $table->integer('course_teacher_id'); 
+            $table->string('course_subject', 20);
+            $table->string('course_qualification', 20);
+            $table->integer('course_teacher_id');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pearson_courses');
+        Schema::dropIfExists('caie_courses');
     }
 };

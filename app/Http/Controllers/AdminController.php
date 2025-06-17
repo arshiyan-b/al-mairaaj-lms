@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Book;
 use App\Models\PearsonCourse;
-use App\Models\Subject;
+use App\Models\PearsonIgcseVideo;
+use App\Models\CaieCourse;
+use App\Models\CaieOlevelVideo;
 
 class AdminController extends Controller
 {
@@ -175,7 +178,6 @@ class AdminController extends Controller
             'courseTitle' => 'required',
             'courseDescription' => 'required',
             'courseQualification' => 'required',
-            'coursePrice' => 'required',
         ]);
 
         PearsonCourse::create([
@@ -184,15 +186,129 @@ class AdminController extends Controller
             'course_title' => $validated['courseTitle'],
             'course_description' => $validated['courseDescription'],
             'course_qualification' => $validated['courseQualification'],
-            'course_price' => $validated['coursePrice'],
         ]);
 
-        return redirect()->back()->with('success', 'Course has been uploaded Created!');
+        return redirect()->back()->with('success', 'Course has been uploaded Successfully!');
     }
     public function pearson_courses_show($id)
     {
         $course = PearsonCourse::where('course_id', $id)->get()->first();
 
         return view('admin.courses.pearson_details', compact('course'));
+    }
+
+    public function pearson_igcse_video_store(Request $request)
+    {
+        $validated = $request->validate([
+            'videoTitle' => 'required',
+            'videoDescription' => 'required',
+            'videoLink' => 'required',
+            'videoLanguage' => 'required',
+            'videoOrder' => 'required',
+            'videoPrice' => 'required',
+            'videoDuration' => 'required',
+            'videoSubject' => 'required',
+            'videoCourseID' => 'required',
+        ]);
+
+        PearsonIgcseVideo::create([
+            'video_title' => $validated['videoTitle'],
+            'video_description' => $validated['videoDescription'],
+            'video_link' => $validated['videoLink'],
+            'video_lang' => $validated['videoLanguage'],
+            'video_order' => $validated['videoOrder'],
+            'video_price' => $validated['videoPrice'],
+            'video_duration' => $validated['videoDuration'],
+            'video_subject' => $validated['videoSubject'],
+            'video_course_id' => $validated['videoCourseID'],
+        ]);
+
+        return redirect()->back()->with('success', 'Video has been uploaded Successfully!');
+    }
+    public function caie_olevel_courses(Request $request)
+    {
+        $teacherList = Teacher::all();
+        $courses = CaieCourse::where('course_qualification', 'olevel')->get();
+        $subjects = Subject::all();
+
+        return view('admin.courses.caie_olevel', compact('teacherList','courses','subjects'));
+    }
+    public function caie_courses_store(Request $request)
+    {
+        $validated = $request->validate([
+            'courseSubject' => 'required',
+            'courseTeacher' => 'required',
+            'courseTitle' => 'required',
+            'courseDescription' => 'required',
+            'courseQualification' => 'required',
+        ]);
+
+        CaieCourse::create([
+            'course_subject' => $validated['courseSubject'],
+            'course_teacher_id' => $validated['courseTeacher'],
+            'course_title' => $validated['courseTitle'],
+            'course_description' => $validated['courseDescription'],
+            'course_qualification' => $validated['courseQualification'],
+        ]);
+
+        return redirect()->back()->with('success', 'Course has been uploaded Created!');
+    }
+    
+    public function caie_courses_show($id)
+    {
+        $course = CaieCourse::where('course_id', $id)->get()->first();
+
+        return view('admin.courses.caie_details', compact('course'));
+    }
+    public function caie_olevel_video_store(Request $request)
+    {
+        $validated = $request->validate([
+            'videoTitle' => 'required',
+            'videoDescription' => 'required',
+            'videoLink' => 'required',
+            'videoLanguage' => 'required',
+            'videoOrder' => 'required',
+            'videoPrice' => 'required',
+            'videoDuration' => 'required',
+            'videoSubject' => 'required',
+            'videoCourseID' => 'required',
+        ]);
+
+        CaieOlevelVideo::create([
+            'video_title' => $validated['videoTitle'],
+            'video_description' => $validated['videoDescription'],
+            'video_link' => $validated['videoLink'],
+            'video_lang' => $validated['videoLanguage'],
+            'video_order' => $validated['videoOrder'],
+            'video_price' => $validated['videoPrice'],
+            'video_duration' => $validated['videoDuration'],
+            'video_subject' => $validated['videoSubject'],
+            'video_course_id' => $validated['videoCourseID'],
+        ]);
+
+        return redirect()->back()->with('success', 'Video has been uploaded Successfully!');
+    }
+
+    public function demo()
+    {   
+        $videoId = 123;
+        return view('admin.demo', compact('videoId'));
+    }
+
+    public function trackWatchTime(Request $request)
+    {
+        $data = $request->validate([
+            'video_id' => 'required|string',
+            'user_id' => 'required|integer|exists:users,id',
+            'watch_time' => 'required|numeric|min:0|max:15',
+            'is_completed' => 'sometimes|boolean'
+        ]);
+        
+        // For now, just dump the data - you'll want to store this in your database
+        dd($data);
+        
+        // Later implementation might look like:
+        // VideoView::create($data);
+        // return response()->json(['success' => true]);
     }
 }

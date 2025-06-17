@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') | Noomani's Education Hub</title>
+    <title>@yield('title') | Al Mairaaj</title>
+    <link rel="icon" type="image/png" href="{{ asset('build/assets/book_logo.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -29,18 +30,21 @@
             top: 0;
             left: 0;
             height: 100vh;
-            width: 70px;
-            min-width: 70px;
+            width: 75px;
+            min-width: 75px;
             z-index: 1000;
-            transition: all 0.5s ease-in-out;
+            transition: all 0.62s ease-in-out;
             background-color: #000000;
             display: flex;
-            flex-direction: column;
+            flex-direction: column;  
+            max-height: 100vh;      
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         #sidebar.expand {
-            width: 260px;
-            min-width: 260px;
+            width: 270px;
+            min-width: 270px;
         }
 
         .main {
@@ -117,7 +121,7 @@
 
         a.sidebar-link:hover {
             background-color: rgba(255, 255, 255, .075);
-            border-left: 3px solid #0e2238;
+            border-left: 3px solid #008080;
         }
 
         .sidebar-item {
@@ -219,10 +223,12 @@
         <aside id="sidebar">
             <div class="d-flex">
                 <button class="toggle-btn" type="button">
-                    <i class="bi bi-columns-gap fs-3"></i>
+                    <img src="{{ asset('build/assets/book_logo.png') }}" alt="Icon" style="width: 36px; height: 36px;" class="ms-2">
                 </button>
                 <div class="sidebar-logo">
-                    <a id="sidebar-heading">Noomani's<br>Education<br>Hub</a>
+                    <a id="sidebar-heading">
+                        <img src="{{ asset('build/assets/AlMairaaj_logo.png') }}" alt="Al Mairaaj Logo" style="width: 210px; height: 56px;" class="mt-2">
+                    </a>
                 </div>
             </div>
             <ul class="sidebar-nav">

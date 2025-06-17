@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PearsonCourse extends Model
+class CaieCourse extends Model
 {
     use HasFactory;
 
-    protected $table = 'pearson_courses';
+    protected $table = 'caie_courses';
     public $timestamps = true;
     protected $primaryKey = 'course_id';
 
@@ -31,6 +31,6 @@ class PearsonCourse extends Model
     }
     public function videos()
     {
-        return $this->hasMany(PearsonIgcseVideo::class, 'video_course_id'); 
+        return $this->hasMany(CaieOlevelVideo::class, 'video_course_id');
     }
 }

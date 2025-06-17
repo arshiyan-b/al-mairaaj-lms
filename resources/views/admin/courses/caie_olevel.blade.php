@@ -12,11 +12,6 @@
 
 <div class="container">
     <div class="card">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
         <div class="card-header">
             <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addCourse">Create Course</button>
         </div>
@@ -42,7 +37,7 @@
                                 <td>{{ $course-> course_description }}</td>
                                 <td>{{ $course->teacher->teacher_name ?? 'N/A' }}</td>
                                 <td>
-                                    <a href="{{ route('admin.pearson_course_details', ['id' => $course->course_id]) }}" class="btn btn-dark" target="_blank">
+                                    <a href="{{ route('admin.caie_course_details', ['id' => $course->course_id]) }}" class="btn btn-dark" target="_blank">
                                         View Details
                                     </a> 
                                 </td>
@@ -63,7 +58,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="{{ route('admin.pearson_courses_store') }}" id="studentUserForm">
+            <form method="POST" action="{{ route('admin.caie_courses_store') }}" id="studentUserForm">
             @csrf
                 <div class="mb-3 row">
                     <div class="col-md-7">
@@ -112,7 +107,7 @@
                         <textarea name="courseDescription" class="form-control" id="courseDescription" placeholder="Enter Course Description" rows="4" style="resize: vertical;"></textarea>
                     </div>
                 </div>
-                <input type="hidden" name="courseQualification" id="courseQualification" value="igcse">
+                <input type="hidden" name="courseQualification" id="courseQualification" value="olevel">
                 <button type="submit" class="btn btn-dark">Submit</button>
             </form>
         </div>

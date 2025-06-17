@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('pearson_igcse_videos', function (Blueprint $table) {
             $table->id('video_id');
+            $table->integer('video_order');
             $table->string('video_title');
             $table->string('video_subject');
             $table->string('video_description');
             $table->string('video_lang');
             $table->string('video_duration');
+            $table->integer('video_price');
             $table->string('video_link');
             $table->string('video_course_id');
             $table->timestamps();

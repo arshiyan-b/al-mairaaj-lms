@@ -32,9 +32,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/pearson/books', [AdminController::class, 'pearson_books_store'])->name('admin.pearson_books_store');
 
     Route::get('/admin/pearson/igcse/courses', [AdminController::class, 'pearson_igcse_courses'])->name('admin.pearson_igcse_courses');
-    Route::post('/admin/pearson/igcse/courses/store', [AdminController::class, 'pearson_courses_store'])->name('admin.pearson_igcse_courses_store');
+    Route::post('/admin/pearson/igcse/courses/store', [AdminController::class, 'pearson_courses_store'])->name('admin.pearson_courses_store');
 
-    Route::get('admin/pearson/igcse/courses/{id}', [AdminController::class, 'pearson_courses_show'])->name('admin.pearson_course_details');
+    Route::get('/admin/pearson/igcse/courses/{id}', [AdminController::class, 'pearson_courses_show'])->name('admin.pearson_course_details');
+    Route::post('/admin/pearson/igcse/video/store', [AdminController::class, 'pearson_igcse_video_store'])->name('admin.pearson_igcse_video_store');
+
+    Route::get('/admin/caie/olevel/courses', [AdminController::class, 'caie_olevel_courses'])->name('admin.caie_olevel_courses');
+    Route::post('/admin/caie/olevel/courses/store', [AdminController::class, 'caie_courses_store'])->name('admin.caie_courses_store');
+
+    Route::get('/admin/caie/olevel/courses/{id}', [AdminController::class, 'caie_courses_show'])->name('admin.caie_course_details');
+    Route::post('/admin/caie/olevel/video/store', [AdminController::class, 'caie_olevel_video_store'])->name('admin.caie_olevel_video_store');
+
+
+    Route::get('admin/demo', [AdminController::class, 'demo']);
+
+    Route::post('/video/track', [AdminController::class, 'trackWatchTime'])->name('video.track');
 
 
 });
@@ -54,4 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
 
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
+    Route::get('/student/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
+
 });

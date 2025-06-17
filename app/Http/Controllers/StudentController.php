@@ -10,4 +10,9 @@ class StudentController extends Controller
     {   
         return view('student.dashboard');
     }
+
+    public function caie_olevel()
+    {   
+        return view('student.courses.caie_olevel');
+    }
 }

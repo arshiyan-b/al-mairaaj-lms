@@ -27,65 +27,64 @@
                 {{ session('success') }}
             </div>
         @endif
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="mb-0"><strong>Pearson - {{ strtoupper($course->course_qualification) }} - {{ $course->course_title }}</strong></h3>
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addVideo">Add Video</button>
-    </div>
-        <div class="card-body">
-        <div class="table-responsive-wrapper" style="overflow-x: auto;">
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th>Course ID</th>
-                        <td>{{ $course->course_id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Title</th>
-                        <td>{{ $course->course_title }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ $course->course_description }}</td>
-                    </tr>
-                    <tr>
-                        <th>Subject</th>
-                        <td>{{ $course->subject->subject_name ?? 'N/A' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Qualification</th>
-                        <td>{{ strtoupper($course->course_qualification) }}</td>
-                    </tr>
-                    <tr>
-                        <th>Teacher Name</th>
-                        <td>{{ $course->teacher->teacher_name ?? 'N/A' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Number of Videos</th>
-                        <td>
-                            @if( $course->videos->count() !== 0 )
-                                {{ $course->videos->count() }}
-                            @else
-                                No videos found 
-                            @endif
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><strong>CAIE - {{ strtoupper($course->course_qualification) }} - {{ $course->course_title }}</strong></h3>
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addVideo">Add Video</button>
         </div>
+        <div class="card-body">
+            <div class="table-responsive-wrapper" style="overflow-x: auto;">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Course ID</th>
+                            <td>{{ $course->course_id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Title</th>
+                            <td>{{ $course->course_title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ $course->course_description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Subject</th>
+                            <td>{{ $course->subject->subject_name ?? 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Qualification</th>
+                            <td>{{ $course->course_qualification }}</td>
+                        </tr>
+                        <tr>
+                            <th>Teacher Name</th>
+                            <td>{{ $course->teacher->teacher_name ?? 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Number of Videos</th>
+                            <td>
+                                @if( $course->videos->count() !== 0 )
+                                    {{ $course->videos->count() }}
+                                @else
+                                    No videos found 
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="addVideo" tabindex="-1" aria-labelledby="addVideoLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addVideoLabel">Create a new Pearson {{ $course->course_qualification }} Video</h5>
+                <h5 class="modal-title" id="addVideoLabel">Create a new CAIE {{ $course->course_qualification }} Video</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.pearson_igcse_video_store') }}" id="studentUserForm">
+                <form method="POST" action="{{ route('admin.caie_olevel_video_store') }}" id="studentUserForm">
                 @csrf
                     <div class="mb-3 row">
                         <div class="col-md-11">
@@ -138,5 +137,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection
