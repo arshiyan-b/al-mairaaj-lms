@@ -68,5 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
     Route::get('/student/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
+    Route::get('/student/courses/pearson/igcse', [StudentController::class, 'pearson_igcse'])->name('student.pearson_igcse');
+
 
 });

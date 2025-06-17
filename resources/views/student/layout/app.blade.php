@@ -304,7 +304,7 @@
                             </a>
                             <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
                             <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">IGCSE</a>
+                                    <a href="{{ route('student.pearson_igcse') }}" class="sidebar-link">IGCSE</a>
                                 </li>
                                 <li class="sidebar-item">
                                     <a href="#" class="sidebar-link">International A Level (AS)</a>

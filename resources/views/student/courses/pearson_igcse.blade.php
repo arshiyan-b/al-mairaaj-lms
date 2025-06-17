@@ -1,6 +1,6 @@
 @extends('student.layout.app')
 @section('title')
-    CAIE O-Level
+    Pearson IGCSE
 @endsection
 @section('content')
 <style>
@@ -26,7 +26,7 @@
 <div class="container mt-2">
     <div class="card">
         <div class="card-header">
-            <h2 class="mb-4">CAIE O-Level Courses</h2>        
+            <h2 class="mb-4">Pearson IGCSE Courses</h2>        
         </div>
 
         <div class="card-body">
