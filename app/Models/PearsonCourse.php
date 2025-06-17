@@ -18,6 +18,7 @@ class PearsonCourse extends Model
         'course_title',
         'course_description',
         'course_subject',
+        'course_paper',
         'course_qualification',
         'course_teacher_id',
     ];

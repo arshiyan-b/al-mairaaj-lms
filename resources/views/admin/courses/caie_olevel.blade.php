@@ -22,6 +22,7 @@
                         <tr>
                             <th>Course ID</th>
                             <th>Subject</th>
+                            <th>Paper</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Teacher</th>
@@ -33,8 +34,9 @@
                             <tr>
                                 <td>{{ $course-> course_id }}</td>
                                 <td>{{ $course->subject->subject_name ?? 'N/A' }}</td>
-                                <td>{{ $course-> course_title }}</td>
-                                <td>{{ $course-> course_description }}</td>
+                                <td>Paper - {{ $course->course_paper }}</td>
+                                <td>{{ $course->course_title }}</td>
+                                <td>{{ $course->course_description }}</td>
                                 <td>{{ $course->teacher->teacher_name ?? 'N/A' }}</td>
                                 <td>
                                     <a href="{{ route('admin.caie_course_details', ['id' => $course->course_id]) }}" class="btn btn-dark" target="_blank">
@@ -81,6 +83,16 @@
                             <option value="pst">Pakistan Studies</option>
                             <option value="physics">Physics</option>
                             <option value="urdu">Urdu</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="coursePaper" class="form-label">Paper</label>
+                        <select name="coursePaper" class="form-control custom-input scroll-select" id="coursePaper" required>
+                            <option disabled selected>-- Select Paper --</option>
+                            <option value="1">Papar 1</option>
+                            <option value="2">Papar 2</option>
+                            <option value="3">Papar 3</option>
+                            <option value="4">Papar 4</option>
                         </select>
                     </div>
                 </div>

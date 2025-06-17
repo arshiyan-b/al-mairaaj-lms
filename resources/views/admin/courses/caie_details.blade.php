@@ -52,6 +52,10 @@
                             <td>{{ $course->subject->subject_name ?? 'N/A' }}</td>
                         </tr>
                         <tr>
+                            <th>Paper</th>
+                            <td>Paper - {{ $course->course_paper }}</td>
+                        </tr>
+                        <tr>
                             <th>Qualification</th>
                             <td>{{ $course->course_qualification }}</td>
                         </tr>

@@ -174,6 +174,7 @@ class AdminController extends Controller
         
         $validated = $request->validate([
             'courseSubject' => 'required',
+            'coursePaper' => 'required',
             'courseTeacher' => 'required',
             'courseTitle' => 'required',
             'courseDescription' => 'required',
@@ -182,6 +183,7 @@ class AdminController extends Controller
 
         PearsonCourse::create([
             'course_subject' => $validated['courseSubject'],
+            'course_paper' => $validated['coursePaper'],
             'course_teacher_id' => $validated['courseTeacher'],
             'course_title' => $validated['courseTitle'],
             'course_description' => $validated['courseDescription'],
@@ -237,6 +239,7 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'courseSubject' => 'required',
+            'coursePaper' => 'required',
             'courseTeacher' => 'required',
             'courseTitle' => 'required',
             'courseDescription' => 'required',
@@ -245,6 +248,7 @@ class AdminController extends Controller
 
         CaieCourse::create([
             'course_subject' => $validated['courseSubject'],
+            'course_paper' => $validated['coursePaper'],
             'course_teacher_id' => $validated['courseTeacher'],
             'course_title' => $validated['courseTitle'],
             'course_description' => $validated['courseDescription'],
