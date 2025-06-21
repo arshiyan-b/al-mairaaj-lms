@@ -196,7 +196,13 @@ class AdminController extends Controller
     {
         $course = PearsonCourse::where('course_id', $id)->get()->first();
 
-        return view('admin.courses.pearson_details', compact('course'));
+        $highestOrder = PearsonIgcseVideo::where('video_course_id',$course->course_id)->max('video_order');
+
+        if ($course->course_qualification == 'igcse'){
+            $videos = PearsonIgcseVideo::where('video_course_id',$course->course_id)->orderBy('video_order', 'asc')->get();
+        }
+
+        return view('admin.courses.pearson_details', compact('course','videos','highestOrder'));
     }
 
     public function pearson_igcse_video_store(Request $request)
@@ -262,7 +268,12 @@ class AdminController extends Controller
     {
         $course = CaieCourse::where('course_id', $id)->get()->first();
 
-        return view('admin.courses.caie_details', compact('course'));
+        $highestOrder = CaieOlevelVideo::where('video_course_id',$course->course_id)->max('video_order');
+
+        if ($course->course_qualification == 'olevel'){
+            $videos = CaieOlevelVideo::where('video_course_id',$course->course_id)->orderBy('video_order', 'asc')->get();
+        }
+        return view('admin.courses.caie_details', compact('course','videos','highestOrder'));
     }
     public function caie_olevel_video_store(Request $request)
     {

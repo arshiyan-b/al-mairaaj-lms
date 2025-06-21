@@ -69,13 +69,32 @@
                                 @if( $course->videos->count() !== 0 )
                                     {{ $course->videos->count() }}
                                 @else
-                                    No videos found 
+                                    <span class="text-muted">No videos found.</span>
                                 @endif
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            @if( $course->videos->count() !== 0 )
+            <hr>
+            <h2>List of Videos</h2>
+            <br>
+                <ul class="list-unstyled">
+                    @foreach($videos as $video)
+                        <li>
+                            <div 
+                                class="col-md-8 p-2 mb-2 border rounded bg-light cursor-pointer" 
+                                role="button"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#videoModal" 
+                                data-video="{{ $video->video_link }}">
+                                <strong>{{ $video->video_order }}. </strong>{{ $video->video_title }}
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
     </div>
 </div>
@@ -119,7 +138,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="videoOrder" class="form-label">Order</label>
-                            <input type="number" name="videoOrder" id="videoOrder" class="form-control" placeholder="Enter Vimeo Link">
+                            <input type="number" name="videoOrder" id="videoOrder" class="form-control" value="{{ $highestOrder + 1 }}" readonly>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -142,5 +161,39 @@
     </div>
 </div>
 
+
+<!-- Video Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="videoModalLabel">Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <iframe id="videoFrame" src="" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var videoModal = document.getElementById('videoModal');
+        var videoFrame = document.getElementById('videoFrame');
+
+        videoModal.addEventListener('show.bs.modal', function (event) {
+            var link = event.relatedTarget;
+            var videoUrl = link.getAttribute('data-video');
+            videoFrame.src = videoUrl;
+        });
+
+        videoModal.addEventListener('hidden.bs.modal', function () {
+            videoFrame.src = ''; // stop video on close
+        });
+    });
+</script>
 
 @endsection
