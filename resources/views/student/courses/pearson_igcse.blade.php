@@ -4,14 +4,19 @@
 @endsection
 @section('content')
 <style>
-    .custom-card {
-        width: 250px; 
-        margin: 10px;
-
+    .container {
+        max-width: 1300px;
+        margin-left: 40px;    
+        padding: 0 15px;   
     }
+
+    .custom-card {
+        margin: 10px auto;
+    }
+
     .custom-image-container {
-        width: 200px;
-        height: 230px;
+        width: 100%;
+        height: 180px;
         overflow: hidden;
         margin: 0 auto;
     }
@@ -20,6 +25,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .card-body {
+        padding: 8px; 
+    }
+
+    .card-footer {
+        padding: 6px; 
+        font-size: 0.9rem;
     }
 </style>
 
@@ -30,15 +44,12 @@
         </div>
 
         <div class="card-body">
-            <div class="row">
+            <div class="row g-2">
                 @foreach($courses as $course)
-                <div class="col-md-3 mb-2">
-                    <div class="card h-100 shadow-sm custom-card">
-                        <!-- Image with fixed dimensions -->
+                <div class="col-md-2 col-sm-4 col-6 mb-2    ">
+                    <div class="card shadow-sm custom-card">
                         <div class="custom-image-container">
-                            <img src="{{ asset('build/assets/book_logo.png') }}" 
-                                    class="card-img-top" 
-                                    alt="Course Image">
+                            <img src="{{ asset('build/assets/book_logo.png') }}" class="card-img-top" alt="Course Image">
                         </div>
 
                         <div class="card-body">
@@ -56,5 +67,4 @@
         </div>
     </div>
 </div>
-
 @endsection
