@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\TeacherDoc;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Book;
@@ -102,10 +103,20 @@ class AdminController extends Controller
             'teacher_email' => $validated['teacherEmail'],
             'teacher_cnic' => $validated['teacherCNIC'],
         ]);
-    
 
         return redirect()->back()->with('success', 'Teacher added successfully!');
     }
+
+    public function teacher_show($id)
+    {
+        $teacher = Teacher::where('teacher_id', $id)->first();
+        $subjectKeys = explode(',', $teacher->subjects);
+        $subjects = Subject::whereIn('subject_key', $subjectKeys)->get();
+        $docs = TeacherDoc::where('teacher_id', $id)->get();
+
+        return view ('admin.teacher_details', compact('teacher','subjectKeys','subjects','docs'));
+    }
+
     public function teacher_user(Request $request)
     {
 

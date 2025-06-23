@@ -85,13 +85,19 @@
          </div>
     </div>
     <div class="main">
+        @if(session('success'))
+            <div class="alert" style="background-color: teal; color: #fff;" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                @endforeach
             </div>
         @endif
          <div class="col-md-6 col-sm-12">
@@ -108,6 +114,10 @@
                     </div>
                     <button type="submit" class="btn btn-dark">Login</button>
                 </form>
+                <p class="mt-3">
+                    Not a member? 
+                    <a href="{{ route('register') }}">Register now</a>
+                </p>
             </div>
         </div>
     </div>

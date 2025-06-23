@@ -31,6 +31,7 @@
                             <th>Phone number</th>
                             <th>Email</th>
                             <th>CNIC number</th>
+                            <th>View Details</th>
                             <th>Create User</th>
                             </tr>
                         </thead>
@@ -42,6 +43,11 @@
                             <td>{{ $teacher-> teacher_phone_no }}</td>
                             <td>{{ $teacher-> teacher_email }}</td>
                             <td>{{ $teacher-> teacher_cnic }}</td>
+                            <td>
+                                <a href="{{ route('admin.teachers_show', $teacher->teacher_id) }}" class="btn btn-sm btn-dark">
+                                    View Details
+                                </a>
+                            </td>
                             <td>
                             @if ($teacher-> user_created == false)
                                 <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTeacherUser" data-teacher-id="{{ $teacher->teacher_id }}">Create</button>

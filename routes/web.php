@@ -10,9 +10,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
-Route::post('login', [LoginController::class, 'authenticate'])->name('admin.auth');
+Route::post('/log-in', [LoginController::class, 'authenticate'])->name('admin.auth');
+Route::get('/register/teacher', [LoginController::class, 'register'])->name('register');
+Route::post('/teacher-register', [LoginController::class, 'teacher_register'])->name('teacher.register');
 
 Route::middleware('auth')->group(function () {
 
@@ -26,6 +28,7 @@ Route::middleware('auth')->group(function () {
  
     Route::get('/admin/teachers', [AdminController::class, 'teacher'])->name('admin.teacher');
     Route::post('/admin/teachers/store', [AdminController::class, 'teacher_store'])->name('admin.teacher_store');
+    Route::get('/admin/teachers/{teacher}', [AdminController::class, 'teacher_show'])->name('admin.teachers_show');
     Route::post('/admin/teachers/user', [AdminController::class, 'teacher_user'])->name('admin.teacher_user');
 
     Route::get('/admin/pearson/books', [AdminController::class, 'pearson_books'])->name('admin.pearson_books');
