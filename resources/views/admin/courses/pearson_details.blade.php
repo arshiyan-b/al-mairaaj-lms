@@ -133,8 +133,9 @@
                             <label for="videoLanguage" class="form-label">Language</label>
                             <select name="videoLanguage" class="form-control custom-input scroll-select" id="videoLanguage" required>
                                 <option disabled selected>-- Select Language --</option>
-                                <option value="english">English</option>
-                                <option value="urdu">Urdu</option>
+                                <option value="English">English</option>
+                                <option value="Urdu">Urdu</option>
+                                <option value="Blingual">Bilingual</option>
                             </select>
                         </div>
                         <div class="col-md-6">

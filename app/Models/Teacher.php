@@ -29,6 +29,9 @@ class Teacher extends Model
         'subjects',
         'grades',
         'agree',
+        'allowed_boards',
+        'allowed_grades',
+        'allowed_subjects',
         'user_created',
     ];
 

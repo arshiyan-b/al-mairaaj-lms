@@ -134,6 +134,7 @@
                                 <option disabled selected>-- Select Language --</option>
                                 <option value="english">English</option>
                                 <option value="urdu">Urdu</option>
+                                <option value="blingual">Bilingual</option>
                             </select>
                         </div>
                         <div class="col-md-6">

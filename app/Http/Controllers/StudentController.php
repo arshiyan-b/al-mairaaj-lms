@@ -18,13 +18,13 @@ class StudentController extends Controller
 
     public function caie_olevel()
     {   
-        $courses = CaieCourse::all();
+        $courses = CaieCourse::where('live','1')->get();
         return view('student.courses.caie_olevel', compact('courses'));
     }
 
     public function pearson_igcse()
     {   
-        $courses = PearsonCourse::all();
+        $courses = PearsonCourse::where('live','1')->get();
         return view('student.courses.pearson_igcse', compact('courses'));
     }
 }

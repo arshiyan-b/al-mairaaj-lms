@@ -84,7 +84,8 @@ class AdminController extends Controller
     public function teacher()
     {
         $teacherList = Teacher::all();
-        return view('admin.teacher',compact('teacherList'));
+        $subjects = Subject::all();
+        return view('admin.teacher',compact('teacherList', 'subjects'));
     }
     public function teacher_store(Request $request)
     {
@@ -119,16 +120,26 @@ class AdminController extends Controller
 
     public function teacher_user(Request $request)
     {
-
         $validated = $request->validate([
             'teacherEmail' => 'required|string|max:255',
             'teacherPassword' => 'required|string|max:15',
             'teacher_id' => 'required|exists:teachers,teacher_id',
+            'teacherBoards' => 'nullable|array',
+            'teacherGrades' => 'nullable|array',
+            'teacherSubjects' => 'nullable|array',
         ]);
 
         $teacher = Teacher::findOrFail($request->teacher_id);
     
         $teacher->user_created = true;
+
+        $teacher->allowed_boards = is_array($validated['teacherBoards']) ? implode(',', $validated['teacherBoards']) : null;
+        $teacher->allowed_grades = is_array($validated['teacherGrades']) ? implode(',', $validated['teacherGrades']) : null;
+        $teacher->allowed_subjects = is_array($validated['teacherSubjects']) ? implode(',', $validated['teacherSubjects']) : null;
+
+        $teacher->save();
+
+
         $teacher->save();
 
         $user = new User();
@@ -137,6 +148,7 @@ class AdminController extends Controller
         $user->password = Hash::make($validated['teacherPassword']); 
         $user->role = 'teacher'; 
         $user->teacher_id = $teacher->teacher_id; 
+        
         $user->save();
 
         return redirect()->back()->with('success', 'Teacher added successfully!');
