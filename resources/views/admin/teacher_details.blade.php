@@ -5,6 +5,11 @@
 @section('content')
 
 <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success mt-3 mx-3">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="card shadow">
         <div class="card-header bg-dark text-white">
             <h4 class="mb-0">Teacher Details</h4>
@@ -84,6 +89,40 @@
             <dd class="col-sm-9">{{ ucfirst($teacher->agree) }}</dd>
         </dl>
         <hr>
+
+        <h5 class="mt-4">Assigned Classes</h5>
+
+        @if($classes->isEmpty())
+            <p class="text-muted">No classes assigned yet.</p>
+        @else
+            @foreach($classes as $class)
+                <div class="border rounded p-3 mb-3">
+                    <p><strong>Board:</strong> {{ $class->board }}</p>
+
+                    <p><strong>Grades:</strong>
+                        @foreach(json_decode($class->grades, true) as $grade)
+                            <span class="badge bg-primary">{{ $grade }}</span>
+                        @endforeach
+                    </p>
+
+                    <p>
+                        <strong>Subjects:</strong>
+                        @php
+                            $subjectIds = json_decode($class->subjects, true);
+                        @endphp
+                        @foreach($subjects->whereIn('subject_id', $subjectIds) as $subject)
+                            <span class="badge bg-success">{{ $subject->subject_name }}</span>
+                        @endforeach
+                        <form action="{{ route('admin.teacher_class_destroy', $class->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this class?');" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </p>
+                </div>
+            @endforeach
+        @endif
+
         <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTeacherClass">Assign Classes</button>
     </div>
 </div>
@@ -159,40 +198,3 @@
 </script>
 
 @endsection
-
-<!-- 
-<div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherBoards" class="form-label">Boards</label>
-                                                    <select name="teacherBoards[]" class="form-control w-100" id="teacherBoards" multiple>
-                                                        <option value="CAIE">CAIE</option>
-                                                        <option value="Pearson">Pearson</option>
-                                                        <option value="AKU - EB">AKU - EB</option>
-                                                        <option value="Federal Board">Federal Board</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherGrades" class="form-label w-100">Grades</label>
-                                                    <select name="teacherGrades[]" class="form-control" id="teacherGrades" multiple>
-                                                        <option value="SSC I">SSC I</option>
-                                                        <option value="SSC II">SSC II</option>
-                                                        <option value="HSSC I">HSSC I</option>
-                                                        <option value="HSSC II">HSSC II</option>
-                                                        <option value="O Levels">O Levels</option>
-                                                        <option value="IGCSE">IGCSE</option>
-                                                        <option value="A Levels">A Levels</option>
-                                                    </select>                                                
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherSubjects" class="form-label w-100">Subjects</label>
-                                                    <select name="teacherSubjects[]" class="form-control" id="teacherSubjects" multiple>
-                                                        @foreach ($subjects as $subject)
-                                                            <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div> -->

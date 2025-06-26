@@ -114,12 +114,32 @@ class AdminController extends Controller
         $teacher = Teacher::where('teacher_id', $id)->first();
         $subjects = Subject::all();
         $docs = TeacherDoc::where('teacher_id', $id)->get();
+        $classes = AllowedClass::where('teacher_id', $id)->get();
 
-        return view ('admin.teacher_details', compact('teacher','subjects','docs'));
+        return view ('admin.teacher_details', compact('teacher','subjects','docs', 'classes'));
     }
     public function teacher_assign_subjects(Request $request, $id)
     {
-        dd($request);
+        $validated = $request->validate([
+            'teacher_id'      => 'required|exists:teachers,teacher_id',
+            'teacherBoards'   => 'required|string',
+            'teacherGrades'   => 'required|array|min:1',
+            'teacherSubjects' => 'required|array|min:1',
+        ]);
+        AllowedClass::create([
+            'teacher_id' => $validated['teacher_id'],
+            'board'      => $validated['teacherBoards'],
+            'grades'     => json_encode($validated['teacherGrades']),
+            'subjects'   => json_encode($validated['teacherSubjects']),
+        ]);
+        return redirect()->back()->with('success', 'Subjects and grades assigned successfully.');
+    }
+    public function teacher_class_destroy($id)
+    {   
+        $class = AllowedClass::find($id);
+        $class->delete();
+
+        return redirect()->back()->with('success', 'Class deleted successfully.');
     }
     public function teacher_user(Request $request)
     {
