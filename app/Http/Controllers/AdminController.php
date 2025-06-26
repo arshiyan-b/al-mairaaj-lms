@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\AllowedClass;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\TeacherDoc;
@@ -111,34 +112,26 @@ class AdminController extends Controller
     public function teacher_show($id)
     {
         $teacher = Teacher::where('teacher_id', $id)->first();
-        $subjectKeys = explode(',', $teacher->subjects);
-        $subjects = Subject::whereIn('subject_key', $subjectKeys)->get();
+        $subjects = Subject::all();
         $docs = TeacherDoc::where('teacher_id', $id)->get();
 
-        return view ('admin.teacher_details', compact('teacher','subjectKeys','subjects','docs'));
+        return view ('admin.teacher_details', compact('teacher','subjects','docs'));
     }
-
+    public function teacher_assign_subjects(Request $request, $id)
+    {
+        dd($request);
+    }
     public function teacher_user(Request $request)
     {
         $validated = $request->validate([
             'teacherEmail' => 'required|string|max:255',
             'teacherPassword' => 'required|string|max:15',
             'teacher_id' => 'required|exists:teachers,teacher_id',
-            'teacherBoards' => 'nullable|array',
-            'teacherGrades' => 'nullable|array',
-            'teacherSubjects' => 'nullable|array',
         ]);
 
         $teacher = Teacher::findOrFail($request->teacher_id);
     
         $teacher->user_created = true;
-
-        $teacher->allowed_boards = is_array($validated['teacherBoards']) ? implode(',', $validated['teacherBoards']) : null;
-        $teacher->allowed_grades = is_array($validated['teacherGrades']) ? implode(',', $validated['teacherGrades']) : null;
-        $teacher->allowed_subjects = is_array($validated['teacherSubjects']) ? implode(',', $validated['teacherSubjects']) : null;
-
-        $teacher->save();
-
 
         $teacher->save();
 

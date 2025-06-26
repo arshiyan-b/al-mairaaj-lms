@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/teachers', [AdminController::class, 'teacher'])->name('admin.teacher');
     Route::post('/admin/teachers/store', [AdminController::class, 'teacher_store'])->name('admin.teacher_store');
     Route::get('/admin/teachers/{teacher}', [AdminController::class, 'teacher_show'])->name('admin.teachers_show');
+    Route::post('admin/teacher/{id}/assign-subjects', [AdminController::class, 'teacher_assign_subjects'])->name('admin.teacher_assign_subjects');
     Route::post('/admin/teachers/user', [AdminController::class, 'teacher_user'])->name('admin.teacher_user');
 
     Route::get('/admin/pearson/books', [AdminController::class, 'pearson_books'])->name('admin.pearson_books');

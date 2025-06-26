@@ -61,65 +61,31 @@
                                 <div class="modal fade" id="createTeacherUser" tabindex="-1" aria-labelledby="addcreateTeacherUser" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addcreateTeacherUser">Create a new user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <form method="POST" action="{{ route('admin.teacher_user') }}">
-                                            @csrf
-                                            <input type="hidden" name="teacher_id" value="{{ $teacher->teacher_id }}">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addcreateTeacherUser">Create a new user</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('admin.teacher_user') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="teacher_id" value="{{ $teacher->teacher_id }}">
 
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <label for="modalTeacherEmail" class="form-label">Teacher Email</label>
-                                                    <input type="email" name="teacherEmail" class="form-control" id="modalTeacherEmail" placeholder="Enter email">
-                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <label for="modalTeacherEmail" class="form-label">Teacher Email</label>
+                                                            <input type="email" name="teacherEmail" class="form-control" id="modalTeacherEmail" placeholder="Enter email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <label for="modalTeacherPassword" class="form-label">Teacher Password</label>
+                                                            <input type="text" name="teacherPassword" class="form-control" id="modalTeacherPassword" placeholder="Enter password">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                                </form>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <label for="modalTeacherPassword" class="form-label">Teacher Password</label>
-                                                    <input type="text" name="teacherPassword" class="form-control" id="modalTeacherPassword" placeholder="Enter password">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherBoards" class="form-label">Boards</label>
-                                                    <select name="teacherBoards[]" class="form-control w-100" id="teacherBoards" multiple>
-                                                        <option value="CAIE">CAIE</option>
-                                                        <option value="Pearson">Pearson</option>
-                                                        <option value="AKU - EB">AKU - EB</option>
-                                                        <option value="Federal Board">Federal Board</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherGrades" class="form-label w-100">Grades</label>
-                                                    <select name="teacherGrades[]" class="form-control" id="teacherGrades" multiple>
-                                                        <option value="SSC I">SSC I</option>
-                                                        <option value="SSC II">SSC II</option>
-                                                        <option value="HSSC I">HSSC I</option>
-                                                        <option value="HSSC II">HSSC II</option>
-                                                        <option value="O Levels">O Levels</option>
-                                                        <option value="IGCSE">IGCSE</option>
-                                                        <option value="A Levels">A Levels</option>
-                                                    </select>                                                
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="teacherSubjects" class="form-label w-100">Subjects</label>
-                                                    <select name="teacherSubjects[]" class="form-control" id="teacherSubjects" multiple>
-                                                        @foreach ($subjects as $subject)
-                                                            <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-dark">Submit</button>
-                                        </form>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -181,28 +147,4 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#teacherBoards').select2({
-            dropdownParent: $('#createTeacherUser'),
-            placeholder: "Select Board(s)",
-            allowClear: true,
-            tags: true
-        });
-
-        $('#teacherGrades').select2({
-            dropdownParent: $('#createTeacherUser'),
-            placeholder: "Select Grade(s)",
-            allowClear: true,
-            tags: true
-        });
-
-        $('#teacherSubjects').select2({
-            dropdownParent: $('#createTeacherUser'),
-            placeholder: "Select Subject(s)",
-            allowClear: true,
-            tags: true
-        });
-    });
-</script>
 @endsection

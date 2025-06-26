@@ -307,7 +307,6 @@
                     </a>
                     
                     <ul id="courses" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#courses">
-@if(str_contains($teacher->allowed_boards, 'Pearson'))                        
                         <li class="sidebar-item">
                             <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pearsonGrades" aria-expanded="false" aria-controls="pearsonGrades">
                                 Pearson
@@ -323,9 +322,7 @@
                                     <a href="#" class="sidebar-link">International A Level (A2)</a>
                                 </li>
                             </ul>
-                        </li>
-@endif
-@if(str_contains($teacher->allowed_boards, 'CAIE'))                        
+                        </li>                   
                         <li class="sidebar-item">
                             <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#caieGrades" aria-expanded="false" aria-controls="caieGrades">
                                 CAIE
@@ -345,8 +342,7 @@
                                 </li>
                             </ul>
                         </li>
-@endif                       
-@if(str_contains($teacher->allowed_boards, 'AKU - EB'))                        
+                  
                         <li class="sidebar-item">
                             <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#akuEbGrades" aria-expanded="false" aria-controls="akuEbGrades">
                                 AKU EB
@@ -368,7 +364,6 @@
                         </li>
                     </ul>
                 </li>
-@endif
             </ul>
             <div class="sidebar-footer">
                 <form method="POST" action="{{ route('logout') }}" id="logout-form" class="w-100">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Subject;
 
 class Teacher extends Model
 {
@@ -38,5 +39,14 @@ class Teacher extends Model
     public function courses()
     {
         return $this->hasMany(Course::class, 'course_teacher_id', 'teacher_id');
+    }
+    public function classes()
+    {
+        return $this->hasMany(AllowedClass::class, 'teacher_id', 'teacher_id');
+    }
+    public function getSubjectsListAttribute()
+    {
+        $subjectKeys = explode(',', $this->subjects);
+        return Subject::whereIn('subject_key', $subjectKeys)->get();
     }
 }
