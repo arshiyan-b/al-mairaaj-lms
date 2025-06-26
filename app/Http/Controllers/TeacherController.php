@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Teacher;
+use App\Models\AllowedClass;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -11,7 +12,8 @@ class TeacherController extends Controller
     {   
         $user = Auth::user();
         $teacher = Teacher::find($user->teacher_id);
+        $classes = AllowedClass::where('teacher_id', $teacher->id)->get();
 
-        return view('teacher.dashboard', compact('teacher'));
+        return view('teacher.dashboard', compact('teacher', 'classes'));
     }
 }

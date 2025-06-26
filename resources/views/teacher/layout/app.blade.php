@@ -245,8 +245,7 @@
                         <span class="fs-6">Study Material</span>
                     </a>
 
-                    <ul id="studyMaterial" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        
+                    <ul id="studyMaterial" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> 
                         <!-- Pearson Dropdown -->
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
@@ -305,63 +304,68 @@
                         <i class="bi bi-camera-video fs-4"></i>
                         <span class="fs-6">Courses</span>
                     </a>
-                    
+
                     <ul id="courses" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#courses">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pearsonGrades" aria-expanded="false" aria-controls="pearsonGrades">
-                                Pearson
-                            </a>
-                            <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
+                        @if($classes->contains('board', 'Pearson'))
                             <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">IGCSE</a>
-                                </li>
+                                <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pearsonGrades" aria-expanded="false" aria-controls="pearsonGrades">
+                                    Pearson
+                                </a>
+                                <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
                                 <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">International A Level (AS)</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">International A Level (A2)</a>
-                                </li>
-                            </ul>
-                        </li>                   
-                        <li class="sidebar-item">
-                            <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#caieGrades" aria-expanded="false" aria-controls="caieGrades">
-                                CAIE
-                            </a>
-                            <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">O Level</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">IGCSE</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">A Level (AS)</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">A Level (A2)</a>
-                                </li>
-                            </ul>
-                        </li>
-                  
-                        <li class="sidebar-item">
-                            <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#akuEbGrades" aria-expanded="false" aria-controls="akuEbGrades">
-                                AKU EB
-                            </a>
-                            <ul id="akuEbGrades" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">SSC I</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">SSC II</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">HSSC I</a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="#" class="sidebar-link">HSSC II</a>
-                                </li>
-                            </ul>
-                        </li>
+                                        <a href="#" class="sidebar-link">IGCSE</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">International A Level (AS)</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">International A Level (A2)</a>
+                                    </li>
+                                </ul>
+                            </li>   
+                        @endif
+                        @if($classes->contains('board', 'CAIE'))
+                            <li class="sidebar-item">
+                                <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#caieGrades" aria-expanded="false" aria-controls="caieGrades">
+                                    CAIE
+                                </a>
+                                <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">O Level</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">IGCSE</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">A Level (AS)</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">A Level (A2)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if($classes->contains('board', 'AKU - EB'))
+                            <li class="sidebar-item">
+                                <a class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#akuEbGrades" aria-expanded="false" aria-controls="akuEbGrades">
+                                    AKU EB
+                                </a>
+                                <ul id="akuEbGrades" class="sidebar-dropdown list-unstyled collapse">
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">SSC I</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">SSC II</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">HSSC I</a>
+                                    </li>
+                                    <li class="sidebar-item">
+                                        <a href="#" class="sidebar-link">HSSC II</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             </ul>
