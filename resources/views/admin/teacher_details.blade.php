@@ -95,34 +95,45 @@
         @if($classes->isEmpty())
             <p class="text-muted">No classes assigned yet.</p>
         @else
-            @foreach($classes as $class)
+            @foreach ($classes as $class)
                 <div class="border rounded p-3 mb-3">
                     <p><strong>Board:</strong> {{ $class->board }}</p>
 
-                    <p><strong>Grades:</strong>
-                        @foreach(json_decode($class->grades, true) as $grade)
-                            <span class="badge bg-primary">{{ $grade }}</span>
-                        @endforeach
+                    <p>
+                        <strong>Grades:</strong>
+                        @php
+                            $grades = is_string($class->grades) ? json_decode($class->grades, true) : $class->grades;
+                        @endphp
+
+                        @if (is_array($grades))
+                            @foreach ($grades as $grade)
+                                <span class="badge bg-primary">{{ $grade }}</span>
+                            @endforeach
+                        @else
+                            <span class="text-danger">Invalid grades data</span>
+                        @endif
                     </p>
 
                     <p>
                         <strong>Subjects:</strong>
                         @php
-                            $subjectIds = json_decode($class->subjects, true);
+                            $subjectIds = is_string($class->subjects) ? json_decode($class->subjects, true) : $class->subjects;
                         @endphp
+
                         @foreach($subjects->whereIn('subject_id', $subjectIds) as $subject)
                             <span class="badge bg-success">{{ $subject->subject_name }}</span>
                         @endforeach
-                        <form action="{{ route('admin.teacher_class_destroy', $class->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this class?');" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
                     </p>
+
+                    <form action="{{ route('admin.teacher_class_destroy', $class->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this class?');" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </div>
             @endforeach
-        @endif
 
+        @endif
         <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTeacherClass">Assign Classes</button>
     </div>
 </div>

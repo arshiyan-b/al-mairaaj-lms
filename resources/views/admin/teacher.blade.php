@@ -3,18 +3,7 @@
     Teacher
 @endsection
 @section('content')
-<style>
-    .col-md-6 {
-        margin-top: 12px;
-    }
-    .col-md-10 {
-        margin-top: 12px;
-    }
-    .btn-dark{
-        margin-top: 8px;
-        margin-bottom: 5px;
-    }
-</style>
+
 <div class="container">
     @if (session('success'))
         <div class="alert alert-success mt-3 mx-3">
@@ -55,7 +44,7 @@
                             </td>
                             <td>
                             @if ($teacher-> user_created == false)
-                                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTeacherUser" data-teacher-id="{{ $teacher->teacher_id }}">Create</button>
+                                <button class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#createTeacherUser" data-teacher-id="{{ $teacher->teacher_id }}">Create</button>
 
                                 <!-- User Create Modal -->
                                 <div class="modal fade" id="createTeacherUser" tabindex="-1" aria-labelledby="addcreateTeacherUser" aria-hidden="true">

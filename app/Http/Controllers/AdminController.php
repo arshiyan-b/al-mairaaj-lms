@@ -129,8 +129,8 @@ class AdminController extends Controller
         AllowedClass::create([
             'teacher_id' => $validated['teacher_id'],
             'board'      => $validated['teacherBoards'],
-            'grades'     => json_encode($validated['teacherGrades']),
-            'subjects'   => json_encode($validated['teacherSubjects']),
+            'grades'     => $validated['teacherGrades'],
+            'subjects'   => $validated['teacherSubjects'],
         ]);
         return redirect()->back()->with('success', 'Subjects and grades assigned successfully.');
     }

@@ -312,15 +312,20 @@
                                     Pearson
                                 </a>
                                 <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">IGCSE</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">International A Level (AS)</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">International A Level (A2)</a>
-                                    </li>
+                                    @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">IGCSE</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => in_array('International A Level (AS)', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">International A Level (AS)</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => in_array('International A Level (A2)', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">International A Level (A2)</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>   
                         @endif
@@ -330,18 +335,26 @@
                                     CAIE
                                 </a>
                                 <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">O Level</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">IGCSE</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">A Level (AS)</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">A Level (A2)</a>
-                                    </li>
+                                    @if($classes->contains(fn($c) => in_array('O Level', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">O Level</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">IGCSE</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">A Level (AS)</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">A Level (A2)</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                         @endif
@@ -351,18 +364,26 @@
                                     AKU EB
                                 </a>
                                 <ul id="akuEbGrades" class="sidebar-dropdown list-unstyled collapse">
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">SSC I</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">SSC II</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">HSSC I</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">HSSC II</a>
-                                    </li>
+                                    @if($classes->contains(fn($c) => $c->board === 'AKU - EB' && in_array('SSC I', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">SSC I</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => $c->board === 'AKU - EB' && in_array('SSC II', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">SSC II</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => $c->board === 'AKU - EB' && in_array('HSSC I', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">HSSC I</a>
+                                        </li>
+                                    @endif
+                                    @if($classes->contains(fn($c) => $c->board === 'AKU - EB' && in_array('HSSC II', (array) $c->grades)))
+                                        <li class="sidebar-item">
+                                            <a href="#" class="sidebar-link">HSSC II</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                         @endif
