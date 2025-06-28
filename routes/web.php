@@ -16,9 +16,9 @@ Route::post('/log-in', [LoginController::class, 'authenticate'])->name('admin.au
 Route::get('/register/teacher', [LoginController::class, 'register'])->name('register');
 Route::post('/teacher-register', [LoginController::class, 'teacher_register'])->name('teacher.register');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+    Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.logout'); 
 
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -53,28 +53,26 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/demo', [AdminController::class, 'demo']);
 
     Route::post('/video/track', [AdminController::class, 'trackWatchTime'])->name('video.track');
-
-
 });
 
 
 // Teacher Routes
-Route::middleware('auth',)->group(function () {
+Route::middleware(['auth', 'role:teacher'])->group(function () {
 
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+    Route::post('teacher/logout', [LoginController::class, 'logout'])->name('teacher.logout'); 
 
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher/olevel', [TeacherController::class, 'olevel_index'])->name('teacher.olevel');
 });
 
 // Student Routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:student'])->group(function () {
 
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); 
+    Route::post('student/logout', [LoginController::class, 'logout'])->name('student.logout'); 
 
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
     Route::get('/student/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
     Route::get('/student/courses/pearson/igcse', [StudentController::class, 'pearson_igcse'])->name('student.pearson_igcse');
-
 
 });

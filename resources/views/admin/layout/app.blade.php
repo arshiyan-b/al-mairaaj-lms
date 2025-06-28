@@ -388,7 +388,7 @@
 
             </ul>
             <div class="sidebar-footer">
-                <form method="POST" action="{{ route('logout') }}" id="logout-form" class="w-100">
+                <form method="POST" action="{{ route('admin.logout') }}" id="logout-form" class="w-100">
                     @csrf
                     <button type="submit" class="sidebar-link w-100 text-start border-0 bg-transparent text-white">
                         <i class="lni lni-exit"></i>

@@ -16,4 +16,11 @@ class TeacherController extends Controller
 
         return view('teacher.dashboard', compact('teacher', 'classes'));
     }
+    public function olevel_index()
+    {
+        $teacher = Teacher::find(Auth::user()->teacher_id);
+        $classes = AllowedClass::where('teacher_id', $teacher->teacher_id)->get();
+
+        return view('teacher.courses.olevel');
+    }
 }

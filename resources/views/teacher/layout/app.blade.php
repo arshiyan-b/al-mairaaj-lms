@@ -42,9 +42,14 @@
             overflow-x: hidden;
         }
 
-        #sidebar.expand {
-            width: 270px;
-            min-width: 270px;
+
+        #sidebar.expand  {
+            width: 300px;
+            min-width: 300px;
+        }
+
+        #sidebar.expand ~ .main {
+            margin-left: 260px;
         }
 
         .main {
@@ -138,7 +143,6 @@
             display: none;
         }
 
-
         #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
             border: solid;
             border-width: 0 .075rem .075rem 0;
@@ -212,7 +216,7 @@
         .form-control:focus,
         .form-control:hover {
             border-color: black !important;
-            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25) !important;
+            box-shadow: 0 0 0 0.25rem rgba(0, 128, 128, 0.52) !important;
         }
 
     </style>
@@ -337,7 +341,7 @@
                                 <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
                                     @if($classes->contains(fn($c) => in_array('O Level', (array) $c->grades)))
                                         <li class="sidebar-item">
-                                            <a href="#" class="sidebar-link">O Level</a>
+                                            <a href="{{ route('teacher.olevel') }}" class="sidebar-link">O Level</a>
                                         </li>
                                     @endif
                                     @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))
@@ -391,7 +395,7 @@
                 </li>
             </ul>
             <div class="sidebar-footer">
-                <form method="POST" action="{{ route('logout') }}" id="logout-form" class="w-100">
+                <form method="POST" action="{{ route('teacher.logout') }}" id="logout-form" class="w-100">
                     @csrf
                     <button type="submit" class="sidebar-link w-100 text-start border-0 bg-transparent text-white">
                         <i class="lni lni-exit"></i>
