@@ -19,6 +19,17 @@ use App\Models\CaieOlevelVideo;
 
 class AdminController extends Controller
 {
+    protected $subjects;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+
+            $this->subjects = Subject::all();
+
+            return $next($request);
+        });
+    }
     public function dashboard()
     {   
         $studentCount = Student::all()->count();
@@ -85,8 +96,10 @@ class AdminController extends Controller
     public function teacher()
     {
         $teacherList = Teacher::all();
-        $subjects = Subject::all();
-        return view('admin.teacher',compact('teacherList', 'subjects'));
+        return view('admin.teacher', [
+            'teacherList' => $teacherList,
+            'subjects' => $this->subjects, 
+        ]);
     }
     public function teacher_store(Request $request)
     {
@@ -112,12 +125,17 @@ class AdminController extends Controller
     public function teacher_show($id)
     {
         $teacher = Teacher::where('teacher_id', $id)->first();
-        $subjects = Subject::all();
         $docs = TeacherDoc::where('teacher_id', $id)->get();
         $classes = AllowedClass::where('teacher_id', $id)->get();
 
-        return view ('admin.teacher_details', compact('teacher','subjects','docs', 'classes'));
+        return view('admin.teacher_details', [
+            'teacher' => $teacher,
+            'subjects' => $this->subjects,
+            'docs' => $docs,
+            'classes' => $classes,
+        ]);
     }
+
     public function teacher_assign_subjects(Request $request, $id)
     {
         $validated = $request->validate([
@@ -201,9 +219,12 @@ class AdminController extends Controller
     {
         $teacherList = Teacher::all();
         $courses = PearsonCourse::where('course_qualification', 'igcse')->get();
-        $subjects = Subject::all();
 
-        return view('admin.courses.pearson_igcse', compact('teacherList','courses'));
+        return view('admin.courses.pearson_igcse', [
+            'teacherList' => $teacherList,
+            'courses' => $courses,
+            'subjects' => $this->subjects,
+        ]);
     }
     public function pearson_courses_store(Request $request)
     {
@@ -273,9 +294,12 @@ class AdminController extends Controller
     {
         $teacherList = Teacher::all();
         $courses = CaieCourse::where('course_qualification', 'olevel')->get();
-        $subjects = Subject::all();
 
-        return view('admin.courses.caie_olevel', compact('teacherList','courses','subjects'));
+        return view('admin.courses.caie_olevel', [
+            'teacherList' => $teacherList,
+            'courses' => $courses,
+            'subjects' => $this->subjects, 
+        ]);
     }
     public function caie_courses_store(Request $request)
     {

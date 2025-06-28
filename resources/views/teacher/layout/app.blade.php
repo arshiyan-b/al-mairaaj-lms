@@ -237,7 +237,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="{{ route('teacher.dashboard') }}" class="sidebar-link">
                         <i class="bi bi-clipboard-data fs-4"></i>
                         <span class="fs-6">Dashboard</span>
                     </a>
@@ -317,7 +317,7 @@
                                 </a>
                                 <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
                                     @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))                                        <li class="sidebar-item">
-                                            <a href="#" class="sidebar-link">IGCSE</a>
+                                            <a href="{{ route('teacher.pearson_igcse') }}" class="sidebar-link">IGCSE</a>
                                         </li>
                                     @endif
                                     @if($classes->contains(fn($c) => in_array('International A Level (AS)', (array) $c->grades)))
@@ -341,7 +341,7 @@
                                 <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
                                     @if($classes->contains(fn($c) => in_array('O Level', (array) $c->grades)))
                                         <li class="sidebar-item">
-                                            <a href="{{ route('teacher.olevel') }}" class="sidebar-link">O Level</a>
+                                            <a href="{{ route('teacher.caie_olevel') }}" class="sidebar-link">O Level</a>
                                         </li>
                                     @endif
                                     @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))
@@ -351,7 +351,7 @@
                                     @endif
                                     @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))
                                         <li class="sidebar-item">
-                                            <a href="#" class="sidebar-link">A Level (AS)</a>
+                                            <a href="{{ route('teacher.caie_alevel_as') }}" class="sidebar-link">A Level (AS)</a>
                                         </li>
                                     @endif
                                     @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))

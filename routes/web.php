@@ -62,7 +62,13 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::post('teacher/logout', [LoginController::class, 'logout'])->name('teacher.logout'); 
 
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-    Route::get('/teacher/olevel', [TeacherController::class, 'olevel_index'])->name('teacher.olevel');
+    
+    Route::get('/teacher/caie/olevel', [TeacherController::class, 'caie_olevel_index'])->name('teacher.caie_olevel');
+    Route::get('/teacher/caie/alevel-as', [TeacherController::class, 'caie_alevel_as_index'])->name('teacher.caie_alevel_as');
+    Route::get('/teacher/pearson/igcse', [TeacherController::class, 'pearson_igcse_index'])->name('teacher.pearson_igcse');
+
+    Route::post('/teacher/store', [TeacherController::class, 'course_store'])->name('teacher.course_store');
+
 });
 
 // Student Routes
