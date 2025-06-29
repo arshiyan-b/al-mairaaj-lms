@@ -7,7 +7,10 @@ use App\Models\Teacher;
 use App\Models\AllowedClass;
 use App\Models\CaieCourse;
 use App\Models\PearsonCourse;
+use App\Models\CaieOlevelVideo;
+use App\Models\PearsonIgcseVideo;
 use Illuminate\Http\Request;
+use Vimeo\Vimeo;
 
 class TeacherController extends Controller
 {
@@ -39,6 +42,15 @@ class TeacherController extends Controller
         return $subjectIds->map(function ($id) {
             return $this->subjects->get($id);
         })->filter()->values();
+    }
+
+    protected function getHighestOrder($board, $grade, $id)
+    {
+        return match ([$board, $grade]) {
+            ['caie', 'olevel']    => CaieOlevelVideo::where('video_course_id', $id)->max('video_order'),
+            ['pearson', 'igcse']   => PearsonIgcseVideo::where('video_course_id', $id)->max('video_order'),
+            default                => 0, // fallback
+        };
     }
 
     public function dashboard()
@@ -85,6 +97,120 @@ class TeacherController extends Controller
             'courses'   => $courses,
         ]);
     }
+    public function course_videos($board, $grade, $id)
+    {
+        if ($board === "caie")
+        {
+            if ($grade === "olevel")
+            {
+                $videos = CaieOlevelVideo::where('video_course_id', $id)->get();
+                $course = CaieCourse::where('course_id', $id)->first();
+                $highestOrder = $this->getHighestOrder('caie', 'olevel', $id);
+
+                return view('teacher.courses.course_videos', compact('videos', 'course', 'highestOrder'));
+            }
+        }
+        elseif ($board === "pearson")
+        {
+            if ($grade === "igcse")
+            {
+                $videos = PearsonIgcseVideo::where('video_course_id', $id)->get();
+                $course = PearsonCourse::where('course_id', $id)->first();
+                $highestOrder = $this->getHighestOrder('pearson', 'igcse', $id);
+
+                return view('teacher.courses.course_videos', compact('videos', 'course'));
+            }
+        }
+    }
+    public function video_store(Request $request, $board, $grade, $id)
+    {
+        $request->validate([
+            'videoTitle'       => 'required|string',
+            'videoDescription' => 'nullable|string',
+            'videoLanguage'    => 'required|string',
+            'videoOrder'       => 'required|integer',
+            'videoDuration'    => 'required|numeric',
+            'videoSubject'     => 'required|string',
+            'videoFile'        => 'required|file|mimes:mp4,mov,avi,wmv|max:512000',
+        ]);
+
+        $data = $request->all();
+
+        $vimeo = new \Vimeo\Vimeo(
+            env('VIMEO_CLIENT_ID'),
+            env('VIMEO_CLIENT_SECRET'),
+            env('VIMEO_ACCESS_TOKEN')
+        );
+
+        try {
+            if (!$request->hasFile('videoFile')) {
+                return back()->with('error', 'No video file uploaded.');
+            }
+
+            $uploadedFile = $request->file('videoFile');
+            if (!$uploadedFile->isValid()) {
+                return back()->with('error', 'Uploaded file is not valid.');
+            }
+
+            $filePath = $uploadedFile->getPathname();
+
+            $uri = $vimeo->upload($filePath, [
+                'name'        => $data['videoTitle'],
+                'description' => $data['videoDescription'],
+            ]);
+
+            $details = $vimeo->request($uri, [], 'GET');
+            $videoId = basename($uri);
+
+            $embedHtml = $details['body']['embed']['html'] ?? null;
+            if (!$embedHtml) {
+                return back()->with('error', 'Could not retrieve embed HTML.');
+            }
+
+            preg_match('/src="([^"]+)"/', $embedHtml, $matches);
+            if (!isset($matches[1])) {
+                return back()->with('error', 'Could not extract video link.');
+            }
+
+            $fullUrl = html_entity_decode($matches[1]);  // decode &amp; to &
+            $videoLink = strtok($fullUrl, '&'); // keep only https://...video/{id}?h=...
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Vimeo upload failed: ' . $e->getMessage());
+        }
+
+
+        $modelMap = [
+            'caie.olevel'   => CaieOlevelVideo::class,
+            'pearson.igcse' => PearsonIgcseVideo::class,
+        ];
+
+        $key = strtolower($board) . '.' . strtolower($grade);
+
+        if (!isset($modelMap[$key])) {
+            return back()->with('error', 'Invalid board/grade combination.');
+        }
+
+        $modelClass = $modelMap[$key];
+
+        $video = new $modelClass([
+            'video_order'       => $data['videoOrder'],
+            'video_title'       => $data['videoTitle'],
+            'video_subject'     => $data['videoSubject'],
+            'video_description' => $data['videoDescription'],
+            'video_price'       => 2,
+            'video_lang'        => $data['videoLanguage'],
+            'video_duration'    => $data['videoDuration'],
+            'video_link'        => $videoLink,
+            'video_course_id'   => $id,
+        ]);
+
+        $video->save();
+
+        return redirect()->back()->with('success', 'Video uploaded and saved successfully.');
+    }
+
+
     public function course_store(Request $request)
     {
         if ( $request->courseBoard === "caie"){
@@ -125,7 +251,6 @@ class TeacherController extends Controller
                 'course_qualification' => $validated['courseQualification'],
             ]);
         }
-        
         return redirect()->back()->with('success', 'Course has been uploaded Created!');
     }
 }

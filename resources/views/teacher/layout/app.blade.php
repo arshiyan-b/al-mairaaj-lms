@@ -316,16 +316,16 @@
                                     Pearson
                                 </a>
                                 <ul id="pearsonGrades" class="sidebar-dropdown list-unstyled collapse">
-                                    @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))                                        <li class="sidebar-item">
+                                    @if($classes->contains(fn($c) => $c->board === 'Pearson' && in_array('IGCSE', (array) $c->grades)))                                        <li class="sidebar-item">
                                             <a href="{{ route('teacher.pearson_igcse') }}" class="sidebar-link">IGCSE</a>
                                         </li>
                                     @endif
-                                    @if($classes->contains(fn($c) => in_array('International A Level (AS)', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'Pearson' && in_array('International A Level (AS)', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="#" class="sidebar-link">International A Level (AS)</a>
                                         </li>
                                     @endif
-                                    @if($classes->contains(fn($c) => in_array('International A Level (A2)', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'Pearson' && in_array('International A Level (A2)', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="#" class="sidebar-link">International A Level (A2)</a>
                                         </li>
@@ -339,22 +339,22 @@
                                     CAIE
                                 </a>
                                 <ul id="caieGrades" class="sidebar-dropdown list-unstyled collapse">
-                                    @if($classes->contains(fn($c) => in_array('O Level', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'CAIE' && in_array('O Level', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="{{ route('teacher.caie_olevel') }}" class="sidebar-link">O Level</a>
                                         </li>
                                     @endif
-                                    @if($classes->contains(fn($c) => in_array('IGCSE', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'CAIE' && in_array('IGCSE', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="#" class="sidebar-link">IGCSE</a>
                                         </li>
                                     @endif
-                                    @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'CAIE' && in_array('A Level (A2)', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="{{ route('teacher.caie_alevel_as') }}" class="sidebar-link">A Level (AS)</a>
                                         </li>
                                     @endif
-                                    @if($classes->contains(fn($c) => in_array('A Level (A2)', (array) $c->grades)))
+                                    @if($classes->contains(fn($c) => $c->board === 'CAIE' && in_array('A Level (A2)', (array) $c->grades)))
                                         <li class="sidebar-item">
                                             <a href="#" class="sidebar-link">A Level (A2)</a>
                                         </li>

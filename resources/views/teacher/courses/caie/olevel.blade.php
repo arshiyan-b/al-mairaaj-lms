@@ -40,9 +40,11 @@
                     <div class="card h-100 shadow-sm custom-card">
                         <!-- Image with fixed dimensions -->
                         <div class="custom-image-container">
-                            <img src="{{ asset('build/assets/book_logo.png') }}" 
-                                    class="card-img-top" 
-                                    alt="Course Image">
+                            <a href="{{ route('teacher.course_videos', ['board' => 'caie', 'grade' => 'olevel','id' => $course->course_id]) }}"> 
+                                <img src="{{ asset('build/assets/book_logo.png') }}" 
+                                        class="card-img-top" 
+                                        alt="Course Image">
+                            </a>
                         </div>
 
                         <div class="card-body">

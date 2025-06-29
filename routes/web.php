@@ -67,7 +67,10 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/caie/alevel-as', [TeacherController::class, 'caie_alevel_as_index'])->name('teacher.caie_alevel_as');
     Route::get('/teacher/pearson/igcse', [TeacherController::class, 'pearson_igcse_index'])->name('teacher.pearson_igcse');
 
-    Route::post('/teacher/store', [TeacherController::class, 'course_store'])->name('teacher.course_store');
+    Route::get('/teacher/{board}/{grade}/{id}/videos', [TeacherController::class, 'course_videos'])->name('teacher.course_videos');
+    Route::post('/teacher/video/store/{board}/{grade}/{id}', [TeacherController::class, 'video_store'])->name('teacher.video_store');
+
+    Route::post('/teacher/course/store', [TeacherController::class, 'course_store'])->name('teacher.course_store');
 
 });
 
