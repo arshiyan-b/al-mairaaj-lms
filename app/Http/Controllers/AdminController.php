@@ -185,33 +185,13 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Teacher added successfully!');
     }
 
-    public function pearson_books()
+    public function books()
     {
-        return view('admin.study_material.pearson_books');
+        return view('admin.study_material.books');
     }
     public function pearson_books_store(Request $request)
     {
-        $request->validate([
-            'subject' => 'required|string|max:255',
-            'qualification' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'pdfUpload' => 'required|mimes:pdf', 
-            'pdfUpload' => 'required|mimes:pdf|max:100000',
-        ]);
-
-        if ($request->hasFile('pdfUpload')) {
-            $file = $request->file('pdfUpload');
-            $filePath = $file->store('pearson_books', 'public'); 
-        }
-
-        // Store the form data in the database
-        Books::create([
-            'book_subject' => $request->subject,
-            'book_category' => $request->category,
-            'book_qualification' => $request->qualification,
-            'book_board' => 'pearson',
-            'book_file_path' => $filePath, 
-        ]);
+        dd($request);
 
         return redirect()->back()->with('success', 'Book has been uploaded successfully!');
     }
