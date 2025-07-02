@@ -163,7 +163,7 @@
                             <input type="file" name="videoFile" id="videoFile" class="form-control" requiredaccept="video/mp4,video/x-m4v,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/webm">
                         </div>
                     </div>
-                    <input type="hidden" name="videoSubject" id="videoSubject" value="{{ $course->subject->subject_name }}">
+                    <input type="hidden" name="videoSubject" id="videoSubject" value="{{ $course->subject->subject_key }}">
 
                     <button type="submit" class="btn btn-dark">Submit</button>
                 </form>

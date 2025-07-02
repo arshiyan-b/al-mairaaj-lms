@@ -124,15 +124,6 @@ class TeacherController extends Controller
     }
     public function video_store(Request $request, $board, $grade, $id)
     {
-        $request->validate([
-            'videoTitle'       => 'required|string',
-            'videoDescription' => 'nullable|string',
-            'videoLanguage'    => 'required|string',
-            'videoOrder'       => 'required|integer',
-            'videoDuration'    => 'required|numeric',
-            'videoSubject'     => 'required|string',
-            'videoFile'        => 'required|file|mimes:mp4,mov,avi,wmv|max:512000',
-        ]);
 
         $data = $request->all();
 
@@ -142,6 +133,7 @@ class TeacherController extends Controller
             env('VIMEO_ACCESS_TOKEN')
         );
 
+        
         try {
             if (!$request->hasFile('videoFile')) {
                 return back()->with('error', 'No video file uploaded.');
