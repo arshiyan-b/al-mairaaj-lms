@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+
 use App\Models\AllowedClass;
 use App\Models\User;
 use App\Models\Teacher;
@@ -29,6 +31,22 @@ class AdminController extends Controller
 
             return $next($request);
         });
+    }
+
+    private function token()
+    {
+        $client_id = \Config('services.google.client_id');
+        $client_secret = \Config('services.google.client_secret');
+        $refresh_token = \Config('services.google.refresh_token');
+        $responce = Http::asForm()->post('https://oauth2.googleapis.com/token', [
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'refresh_token' => $refresh_token,
+            'grant_type' => 'refresh_token'
+        ]);
+
+        $access_token = $responce->json();
+        return $access_token;
     }
     public function dashboard()
     {   
@@ -191,6 +209,11 @@ class AdminController extends Controller
     }
     public function pearson_books_store(Request $request)
     {
+        $access_token = $this->token()['access_token'];
+        $file = $request->file('pdfUpload');
+        $file_name = $file->getClientOriginalName();
+
+
         dd($request);
 
         return redirect()->back()->with('success', 'Book has been uploaded successfully!');
