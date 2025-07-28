@@ -12,13 +12,63 @@
     } 
 </style>
 <div class="container">
-    
+    @if (session('success'))
+        <div class="alert alert-success mt-3 mx-3">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger mt-3 mx-3">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="card">
-            <div class="card-header">
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addPearsonBook">Upload Book</button>
-            </div>
+        <div class="card-header">
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addPearsonBook">Upload Book</button>
+        </div>
             <div class="card-body">
                 <h2>hello world</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Book ID</th>
+                            <th>Book Name</th>
+                            <th>Category</th>
+                            <th>Board</th>
+                            <th>Grade</th>
+                            <th>Subject ID</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Document</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($books as $book)
+                            <tr>
+                                <td>{{ $book->book_id }}</td>
+                                <td>{{ $book->book_name }}</td>
+                                <td>{{ $book->category }}</td>
+                                <td>{{ $book->board }}</td>
+                                <td>{{ $book->grade }}</td>
+                                <td>{{ $book->subject_id }}</td>
+                                <td>{{ $book->created_at }}</td>
+                                <td>{{ $book->updated_at }}</td>
+                                <td>
+                                    @if($book->drive_id)
+                                        <a href="https://drive.google.com/file/d/1PwzfHo5Lmh1HPItC9lEUBDrQvqlm2rHv/view"
+                                        target="_blank"
+                                        class="btn btn-sm btn-primary">
+                                            View Document
+                                        </a>
+                                    @else
+                                        <span class="text-muted">No File</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div> 
     </div>
 </div>
@@ -38,22 +88,9 @@
                         <label for="subject" class="form-label">Subject</label>
                         <select name="subject" class="form-control custom-input scroll-select" id="subject" required>
                             <option disabled selected>-- Select Subject --</option>
-                            <option value="accounting">Accounting</option>
-                            <option value="biology">Biology</option>
-                            <option value="business">Business</option>
-                            <option value="chemistry">Chemistry</option>
-                            <option value="cs">Computer Science</option>
-                            <option value="economics">Economics</option>
-                            <option value="eng_lang_b">English Language B</option>
-                            <option value="further_pure_math">Further Pure Mathematics</option>
-                            <option value="gc">Global Citizenship</option>
-                            <option value="humen_biology">Humen Biology</option>
-                            <option value="ict">ICT</option>
-                            <option value="isl_studies">Islamic Studies</option>
-                            <option value="math_b">Mathematics B</option>
-                            <option value="pst">Pakistan Studies</option>
-                            <option value="physics">Physics</option>
-                            <option value="urdu">Urdu</option>
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -81,6 +118,8 @@
                         <input type="file" name="pdfUpload" class="form-control" id="pdfUpload" accept="application/pdf" required>
                     </div>
                 </div>
+                <input type="hidden" name="board" id="board" value="{{ $board }}">
+
                 <button type="submit" class="btn btn-dark">Upload</button>
             </form>
         </div>

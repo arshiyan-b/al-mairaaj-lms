@@ -34,7 +34,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/admin/teachers/user', [AdminController::class, 'teacher_user'])->name('admin.teacher_user');
 
-    Route::get('/admin/pearson/books', [AdminController::class, 'books'])->name('admin.pearson_books');
+    Route::get('/admin/pearson/books', [AdminController::class, 'pearson_books'])->name('admin.pearson_books');
     Route::post('/admin/pearson/books', [AdminController::class, 'pearson_books_store'])->name('admin.pearson_books_store');
 
     Route::get('/admin/pearson/igcse/courses', [AdminController::class, 'pearson_igcse_courses'])->name('admin.pearson_igcse_courses');
@@ -72,6 +72,7 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
 
     Route::post('/teacher/course/store', [TeacherController::class, 'course_store'])->name('teacher.course_store');
 
+    Route::post('/mcq/store', [TeacherController::class, 'mcq_store'])->name('mcq.store');
 });
 
 // Student Routes

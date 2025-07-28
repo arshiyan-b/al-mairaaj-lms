@@ -107,7 +107,7 @@ class TeacherController extends Controller
                 $course = CaieCourse::where('course_id', $id)->first();
                 $highestOrder = $this->getHighestOrder('caie', 'olevel', $id);
 
-                return view('teacher.courses.course_videos', compact('videos', 'course', 'highestOrder'));
+                return view('teacher.courses.course_videos', compact('videos', 'course', 'highestOrder', 'board'));
             }
         }
         elseif ($board === "pearson")
@@ -118,7 +118,7 @@ class TeacherController extends Controller
                 $course = PearsonCourse::where('course_id', $id)->first();
                 $highestOrder = $this->getHighestOrder('pearson', 'igcse', $id);
 
-                return view('teacher.courses.course_videos', compact('videos', 'course'));
+                return view('teacher.courses.course_videos', compact('videos', 'course', 'highestOrder', 'board'));
             }
         }
     }
@@ -151,21 +151,29 @@ class TeacherController extends Controller
                 'description' => $data['videoDescription'],
             ]);
 
+            // Request details from Vimeo
             $details = $vimeo->request($uri, [], 'GET');
-            $videoId = basename($uri);
 
+            // Get the embed HTML
             $embedHtml = $details['body']['embed']['html'] ?? null;
             if (!$embedHtml) {
                 return back()->with('error', 'Could not retrieve embed HTML.');
             }
 
+            // Extract video URL from embed HTML
             preg_match('/src="([^"]+)"/', $embedHtml, $matches);
             if (!isset($matches[1])) {
                 return back()->with('error', 'Could not extract video link.');
             }
 
-            $fullUrl = html_entity_decode($matches[1]);  // decode &amp; to &
-            $videoLink = strtok($fullUrl, '&'); // keep only https://...video/{id}?h=...
+            $fullUrl = html_entity_decode($matches[1]);  // Decode &amp; to &
+            
+            preg_match('/video\/(\d+)/', $fullUrl, $idMatch);
+            if (!isset($idMatch[1])) {
+                return back()->with('error', 'Could not extract video ID.');
+            }
+
+            $videoId = $idMatch[1]; 
 
         } catch (\Exception $e) {
             return back()->with('error', 'Vimeo upload failed: ' . $e->getMessage());
@@ -193,7 +201,7 @@ class TeacherController extends Controller
             'video_price'       => 2,
             'video_lang'        => $data['videoLanguage'],
             'video_duration'    => $data['videoDuration'],
-            'video_link'        => $videoLink,
+            'video_link'        => $videoId,
             'video_course_id'   => $id,
         ]);
 
@@ -244,5 +252,10 @@ class TeacherController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Course has been uploaded Created!');
+    }
+
+    public function mcq_store(Request $request)
+    {
+        dd($request);
     }
 }

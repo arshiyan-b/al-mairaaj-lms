@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Cache;
 use App\Models\AllowedClass;
 use App\Models\User;
 use App\Models\Teacher;
@@ -33,21 +34,26 @@ class AdminController extends Controller
         });
     }
 
-    private function token()
+    private function token(): string
     {
-        $client_id = \Config('services.google.client_id');
-        $client_secret = \Config('services.google.client_secret');
-        $refresh_token = \Config('services.google.refresh_token');
-        $responce = Http::asForm()->post('https://oauth2.googleapis.com/token', [
-            'client_id' => $client_id,
-            'client_secret' => $client_secret,
-            'refresh_token' => $refresh_token,
-            'grant_type' => 'refresh_token'
-        ]);
+        return Cache::remember('google_access_token', 3500, function () {
+            $creds = config('services.google');
 
-        $access_token = $responce->json();
-        return $access_token;
+            $response = Http::asForm()
+                ->withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])
+                ->post('https://oauth2.googleapis.com/token', [
+                    'client_id'     => $creds['client_id'],
+                    'client_secret' => $creds['client_secret'],
+                    'refresh_token' => $creds['refresh_token'],
+                    'grant_type'    => 'refresh_token',
+                ]);
+
+            $response->throw();
+
+            return $response->json()['access_token'];
+        });
     }
+
     public function dashboard()
     {   
         $studentCount = Student::all()->count();
@@ -203,21 +209,81 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Teacher added successfully!');
     }
 
-    public function books()
+    public function pearson_books()
     {
-        return view('admin.study_material.books');
+        $subjects = $this->subjects;
+        $books = Book::where('board', 'pearson')->get();
+        $board = 'pearson';
+        return view('admin.study_material.books', compact('subjects', 'books', 'board'));
     }
+
+
     public function pearson_books_store(Request $request)
     {
-        $access_token = $this->token()['access_token'];
+        $request->validate([
+            'pdfUpload'     => 'required|file|mimes:pdf|max:10240',
+            'subject'       => 'required|string',
+            'qualification' => 'required|string',
+            'category'      => 'required|string',
+        ]);
+
+        if (!$request->hasFile('pdfUpload')) {
+            return back()->with('error', 'No file uploaded.');
+        }
+
+        $access_token = $this->token(); // already working
+        $folder_id = config('services.google.folder_id');
         $file = $request->file('pdfUpload');
+
         $file_name = $file->getClientOriginalName();
+        $mime_type = $file->getMimeType();
+        $file_path = $file->getRealPath();
 
+        $boundary = Str::random(32);
+        $eol = "\r\n";
 
-        dd($request);
+        // Metadata for the file, including the folder ID
+        $metadata = json_encode([
+            'name' => $file_name,
+            'parents' => [$folder_id],
+        ]);
 
-        return redirect()->back()->with('success', 'Book has been uploaded successfully!');
+        // Multipart body with metadata + file content
+        $body =
+            "--{$boundary}{$eol}" .
+            "Content-Type: application/json; charset=UTF-8{$eol}{$eol}" .
+            $metadata . $eol .
+            "--{$boundary}{$eol}" .
+            "Content-Type: {$mime_type}{$eol}{$eol}" .
+            file_get_contents($file_path) . $eol .
+            "--{$boundary}--";
+
+        // Send the POST request to Drive
+        $response = Http::withToken($access_token)
+            ->withHeaders([
+                'Content-Type' => "multipart/related; boundary={$boundary}",
+            ])
+            ->withBody($body, "multipart/related; boundary={$boundary}")
+            ->post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart');
+
+        if ($response->failed()) {
+            return back()->with('error', 'Google Drive upload failed: ' . $response->body());
+        }
+
+        $driveFile = $response->json();
+
+        Book::create([
+            'drive_id'   => $driveFile['id'],
+            'book_name'  => $file_name,
+            'category'   => $request->input('category'),
+            'board'      => $request->input('board'),
+            'grade'      => $request->input('qualification'),
+            'subject_id' => $request->input('subject'),
+        ]);
+
+        return back()->with('success', "File uploaded to Google Drive! File ID: {$driveFile['id']}");
     }
+
     public function pearson_igcse_courses(Request $request)
     {
         $teacherList = Teacher::all();

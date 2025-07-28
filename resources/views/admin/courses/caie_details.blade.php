@@ -88,7 +88,7 @@
                                 role="button"
                                 data-bs-toggle="modal" 
                                 data-bs-target="#videoModal" 
-                                data-video="{{ $video->video_link }}">
+                                data-video="https://player.vimeo.com/video/{{ $video->video_link }}">
                                 <strong>{{ $video->video_order }}. </strong>{{ $video->video_title }}
                             </div>
                         </li>

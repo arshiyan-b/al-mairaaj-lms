@@ -84,10 +84,80 @@
                                 role="button"
                                 data-bs-toggle="modal" 
                                 data-bs-target="#videoModal" 
-                                data-video="{{ $video->video_link }}">
+                                data-video="https://player.vimeo.com/video/{{ $video->video_link }}">
                                 <strong>{{ $video->video_order }}. </strong>{{ $video->video_title }}
                             </div>
+
+                            <div>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#McqModal{{ $video->video_id }}">Add MCQ</button>
+                            </div>
                         </li>
+
+                        <!-- MCQ Modal -->
+                        <div class="modal fade" id="McqModal{{ $video->video_id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('mcq.store') }}" method="POST">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Add MCQ</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                            <input type="hidden" name="video_id" value="{{ $video->video_id }}">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Question</label>
+                                                <input type="text" class="form-control" name="question" required>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Option A</label>
+                                                    <input type="text" class="form-control" name="option_a" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Option B</label>
+                                                    <input type="text" class="form-control" name="option_b" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Option C</label>
+                                                    <input type="text" class="form-control" name="option_c">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Option D</label>
+                                                    <input type="text" class="form-control" name="option_d">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Correct Answer</label>
+                                                    <select class="form-select" name="correct_option" required>
+                                                        <option value="" disabled selected>Select correct option</option>
+                                                        <option value="a">Option A</option>
+                                                        <option value="b">Option B</option>
+                                                        <option value="c">Option C</option>
+                                                        <option value="d">Option D</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Appear Time</label>
+                                                    <div class="d-flex gap-2">
+                                                        <input type="number" class="form-control" name="appear_minutes" min="1" placeholder="minutes" required>
+                                                        <input type="number" class="form-control" name="appear_seconds" min="0" max="59" placeholder="seconds" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Video Modal -->
                         <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
@@ -118,11 +188,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addVideoLabel">Create a new Pearson {{ $course->course_qualification }} Video</h5>
+                <h5 class="modal-title" id="addVideoLabel">Create a new {{ $board }} {{ $course->course_qualification }} Video</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('teacher.video_store', ['board' => 'caie', 'grade' => 'olevel', 'id' => $course->course_id]) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('teacher.video_store', ['board' => $board, 'grade' => $course->course_qualification, 'id' => $course->course_id]) }}" enctype="multipart/form-data">
                 @csrf
                     <div class="mb-3 row">
                         <div class="col-md-11">

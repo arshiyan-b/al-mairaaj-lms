@@ -13,7 +13,9 @@ class Book extends Model
 
     protected $fillable = [
         'book_id' ,
+        'drive_id',
         'book_name',
+        'category',
         'board',
         'grade',
         'subject_id',
