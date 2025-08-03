@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CaieMcqs extends Model
+class CaieMcq extends Model
 {
     use HasFactory;
 
-    protected $table = 'caie_courses';
+    protected $table = 'caie_mcqs';
     public $timestamps = true;
     protected $primaryKey = 'mcq_id';
 
@@ -22,4 +22,9 @@ class CaieMcqs extends Model
         'option_d',
         'correct_option',
     ];
+
+    public function video()
+    {
+        return $this->hasOne(CaieOlevelVideo::class, 'mcq_id', 'mcq_id'); 
+    }
 }

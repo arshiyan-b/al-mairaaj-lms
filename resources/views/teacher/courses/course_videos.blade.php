@@ -84,16 +84,22 @@
                                 role="button"
                                 data-bs-toggle="modal" 
                                 data-bs-target="#videoModal" 
-                                data-video="https://player.vimeo.com/video/{{ $video->video_link }}">
+                                data-video="https://player.vimeo.com/video/{{ $video->video_link }}"
+                                data-minutes="{{ $video->minutes }}"
+                                data-seconds="{{ $video->seconds }}"
+                                data-video-id="{{ $video->video_id }}"
+                                data-mcq-id="{{ $video->mcq_id }}">
                                 <strong>{{ $video->video_order }}. </strong>{{ $video->video_title }}
                             </div>
 
                             <div>
+                                @if (is_null($video->mcq_id))
                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#McqModal{{ $video->video_id }}">Add MCQ</button>
+                                @endif
                             </div>
                         </li>
 
-                        <!-- MCQ Modal -->
+                        <!-- Add MCQ Modal -->
                         <div class="modal fade" id="McqModal{{ $video->video_id }}" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -104,7 +110,9 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
 
-                                            <input type="hidden" name="video_id" value="{{ $video->video_id }}">
+                                        <input type="hidden" name="video_id" value="{{ $video->video_id }}">
+                                        <input type="hidden" name="board" value="{{ $board }}">
+
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label class="form-label">Question</label>
@@ -142,8 +150,8 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label class="form-label">Appear Time</label>
                                                     <div class="d-flex gap-2">
-                                                        <input type="number" class="form-control" name="appear_minutes" min="1" placeholder="minutes" required>
-                                                        <input type="number" class="form-control" name="appear_seconds" min="0" max="59" placeholder="seconds" required>
+                                                        <input type="number" class="form-control" name="minutes" min="0" placeholder="minutes" required>
+                                                        <input type="number" class="form-control" name="seconds" min="0" max="59" placeholder="seconds" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,7 +173,6 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="videoModalLabel">Video</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="ratio ratio-16x9">
@@ -175,6 +182,53 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- MCQ Modal -->
+                        @if($video->mcq)
+                            <div class="modal fade" id="mcqModal{{ $video->video_id }}" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ $video->mcq->question }}</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="mcqForm{{ $video->video_id }}" data-correct="{{ $video->mcq->correct_option }}">
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" name="answer" value="a">
+                                                    <label class="form-check-label">{{ $video->mcq->option_a }}</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" name="answer" value="b">
+                                                    <label class="form-check-label">{{ $video->mcq->option_b }}</label>
+                                                </div>
+                                                @if($video->mcq->option_c)
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" name="answer" value="c">
+                                                        <label class="form-check-label">{{ $video->mcq->option_c }}</label>
+                                                    </div>
+                                                @endif
+                                                @if($video->mcq->option_d)
+                                                    <div class="form-check">
+                                                        <input type="radio" class="form-check-input" name="answer" value="d">
+                                                        <label class="form-check-label">{{ $video->mcq->option_d }}</label>
+                                                    </div>
+                                                @endif
+
+                                                <div id="resultMsg{{ $video->video_id }}" class="mt-3 fw-bold"></div>
+
+                                                <div class="mt-3">
+                                                    <button type="button" class="btn btn-primary" 
+                                                            onclick="checkAnswer({{ $video->video_id }})">
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
 
                     @endforeach
                 </ul>
@@ -242,6 +296,8 @@
     </div>
 </div>
 
+<script src="https://player.vimeo.com/api/player.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var videoModal = document.getElementById('videoModal');
@@ -257,6 +313,80 @@
             videoFrame.src = ''; // stop video on close
         });
     });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var videoModal = document.getElementById('videoModal');
+        var videoFrame = document.getElementById('videoFrame');
+        var player;
+        var targetTime = null;
+        var videoId = null;
+
+        // When video modal is opened
+        videoModal.addEventListener('show.bs.modal', function (event) {
+            var link = event.relatedTarget;
+            var videoUrl = link.getAttribute('data-video');
+            var minutes = parseInt(link.getAttribute('data-minutes'));
+            var seconds = parseInt(link.getAttribute('data-seconds'));
+            videoId = link.getAttribute('data-video-id');
+
+            videoFrame.src = videoUrl;
+            targetTime = (minutes * 60) + seconds;
+
+            // Load Vimeo player
+            player = new Vimeo.Player(videoFrame);
+
+            // Track time
+            player.on('timeupdate', function (data) {
+                if (data.seconds >= targetTime) {
+                    player.pause();
+
+                    // Show the specific MCQ modal if exists
+                    var mcqModal = document.getElementById(`mcqModal${videoId}`);
+                    if (mcqModal) {
+                        new bootstrap.Modal(mcqModal).show();
+                    }
+
+                    player.off('timeupdate'); // Stop further tracking
+                }
+            });
+        });
+
+        // Clear video when modal closes
+        videoModal.addEventListener('hidden.bs.modal', function () {
+            if (player) {
+                player.unload();
+            }
+            videoFrame.src = ''; 
+        });
+    });
+</script>
+
+<script>
+    function checkAnswer(videoId) {
+        const form = document.getElementById(`mcqForm${videoId}`);
+        const correctOption = form.getAttribute('data-correct');
+        const selected = form.querySelector('input[name="answer"]:checked');
+        const resultMsg = document.getElementById(`resultMsg${videoId}`);
+        const modalEl = document.getElementById(`mcqModal${videoId}`);
+        const modal = bootstrap.Modal.getInstance(modalEl);
+
+        if (!selected) {
+            resultMsg.innerHTML = "<span class='text-danger'>Please select an answer!</span>";
+            return;
+        }
+
+        if (selected.value === correctOption) {
+            resultMsg.innerHTML = "<span class='text-success'>Correct Answer ✅</span>";
+            setTimeout(() => {
+                modal.hide(); // close the modal
+            }, 1000); // close after 1 sec so user can see message
+        } else {
+            resultMsg.innerHTML = "<span class='text-danger'>Wrong Answer ❌ Try again!</span>";
+        }
+    }
+
 </script>
 
 @endsection

@@ -9,6 +9,7 @@ use App\Models\CaieCourse;
 use App\Models\PearsonCourse;
 use App\Models\CaieOlevelVideo;
 use App\Models\PearsonIgcseVideo;
+use App\Models\CaieMcq;
 use Illuminate\Http\Request;
 use Vimeo\Vimeo;
 
@@ -256,6 +257,25 @@ class TeacherController extends Controller
 
     public function mcq_store(Request $request)
     {
-        dd($request);
+        if ( $request->board === 'caie')
+        {
+            $mcq = CaieMcq::create([
+                'video_id'      => $request->video_id,
+                'question'      => $request->question,
+                'option_a'      => $request->option_a,
+                'option_b'      => $request->option_b,
+                'option_c'      => $request->option_c,
+                'option_d'      => $request->option_d,
+                'correct_option'=> $request->correct_option,
+            ]);
+
+            CaieOlevelVideo::where('video_id', $request->video_id)->update([
+                'mcq_id'        => $mcq->mcq_id,
+                'minutes'       => $request->minutes,
+                'seconds'       => $request->seconds,
+            ]);
+        }
+
+        return back()->with('success', 'MCQ uploaded successfully!');
     }
 }

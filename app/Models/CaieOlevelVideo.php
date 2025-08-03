@@ -24,10 +24,17 @@ class CaieOlevelVideo extends Model
         'video_duration',
         'video_link',
         'video_course_id',
+        'mcq_id',
+        'minutes',
+        'seconds'
     ];
 
     public function course()
     {
         return $this->belongsTo(CaieCourse::class, 'video_course_id'); 
+    }
+    public function mcq()
+    {
+        return $this->belongsTo(CaieMcq::class, 'mcq_id', 'mcq_id'); 
     }
 }
