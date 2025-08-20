@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentController;
@@ -10,11 +11,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
 Route::post('/log-in', [LoginController::class, 'authenticate'])->name('admin.auth');
 Route::get('/register/teacher', [LoginController::class, 'register'])->name('register');
 Route::post('/teacher-register', [LoginController::class, 'teacher_register'])->name('teacher.register');
+
+Route::get('/chat', [ChatbotController::class, 'chat'])->name('chat');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
