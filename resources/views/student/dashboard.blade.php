@@ -1,23 +1,13 @@
-@extends('student.layout.app')
-@section('title')
-    Dashboard
-@endsection
-@section('content')
-<style>
-    .card-body{
-        padding: 15px;
-    }
-    .info-card{
-        margin: 15px;
-    }
-</style>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h2>Welcome to Student Dashboard</h2>
-
-            </div>
-        </div>
-    </div>
-
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    @viteReactRefresh
+    @vite(['resources/css/app.css', 'resources/js/React-student/app.jsx'])
+</head>
+<body>
+    <div id="app" data-user="{{ json_encode($user) }}"></div>
+</body>
+</html>

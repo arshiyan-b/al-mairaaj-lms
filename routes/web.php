@@ -84,7 +84,12 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
     Route::post('student/logout', [LoginController::class, 'logout'])->name('student.logout'); 
 
-    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    // Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+   Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student/dashboard', function () {
+        return view('student.dashboard', ['user' => auth()->user()]);
+    })->name('student.dashboard');
+});
 
     Route::get('/student/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
     Route::get('/student/courses/pearson/igcse', [StudentController::class, 'pearson_igcse'])->name('student.pearson_igcse');
