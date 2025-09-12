@@ -13,7 +13,7 @@ class StudentController extends Controller
 {
     public function dashboard()
     {   
-        return view('student.dashboard');
+        return view('student.dashboard', ['user' => auth()->user()]);
     }
 
     public function caie_olevel()

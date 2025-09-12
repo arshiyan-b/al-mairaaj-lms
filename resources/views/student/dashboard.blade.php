@@ -7,7 +7,7 @@
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/React-student/app.jsx'])
 </head>
-<body>
-    <div id="app" data-user="{{ json_encode($user) }}"></div>
-</body>
+    <body>
+        <div id="app" data-user="{{ json_encode($user) }}"></div>
+    </body>
 </html>
