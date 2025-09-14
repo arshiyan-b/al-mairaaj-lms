@@ -84,9 +84,25 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
     Route::post('student/logout', [LoginController::class, 'logout'])->name('student.logout'); 
 
-    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 
-    Route::get('/student/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
-    Route::get('/student/courses/pearson/igcse', [StudentController::class, 'pearson_igcse'])->name('student.pearson_igcse');
+    // courses
+    Route::get('/courses', [StudentController::class, 'courses'])->name('student.courses');
+
+    // boards
+    Route::get('/boards', [StudentController::class, 'boards'])->name('student.boards');
+
+    // subjects
+    Route::get('/subjects', [StudentController::class, 'subjects'])->name('student.subjects');
+
+    // books
+    Route::get('/books', [StudentController::class, 'books'])->name('student.books');
+
+    // past papers
+    Route::get('/past-papers', [StudentController::class, 'past_papers'])->name('student.past_papers');
+
+
+    Route::get('/courses/caie/olevel', [StudentController::class, 'caie_olevel'])->name('student.caie_olevel');
+    Route::get('/courses/pearson/igcse', [StudentController::class, 'pearson_igcse'])->name('student.pearson_igcse');
 
 });

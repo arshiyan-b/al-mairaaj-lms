@@ -1,8 +1,11 @@
 import React from 'react'
 
-const Subjects = () => {
+const Subjects = ({ user }) => {
   return (
-    <div>Subjects</div>
+    <div>
+      <h1>Subjects</h1>
+      <p>User: {user.name}</p>
+    </div>
   )
 }
 

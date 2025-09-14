@@ -54,12 +54,12 @@ function App() {
     <BrowserRouter>
       <MainLayout user={userData}>
         <Routes>
-          <Route path="/student/dashboard" element={<Dashboard user={userData} />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/boards" element={<Boards />} />
-          <Route path="/subjects" element={<Subjects />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/past-papers" element={<PastPapers />} />
+          <Route path="/dashboard" element={<Dashboard user={userData} />} />
+          <Route path="/courses" element={<Courses user={userData}/>} />
+          <Route path="/boards" element={<Boards user={userData}/>} />
+          <Route path="/subjects" element={<Subjects user={userData}/>} />
+          <Route path="/books" element={<Books user={userData}/>} />
+          <Route path="/past-papers" element={<PastPapers user={userData}/>} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

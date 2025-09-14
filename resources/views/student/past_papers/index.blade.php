@@ -1,9 +1,9 @@
 @extends('student.layout.app')
 
 @section('title')
-    Dashboard
+    Past Papers
 @endsection
 
 @section('content')
-    <div id="app" data-user="{{ json_encode($user) }}"></div>
+    <div id="app"></div>
 @endsection

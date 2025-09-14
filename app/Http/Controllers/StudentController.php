@@ -15,6 +15,31 @@ class StudentController extends Controller
     {   
         return view('student.dashboard', ['user' => auth()->user()]);
     }
+    
+    public function courses()
+    {   
+        return view('student.courses.index');
+    }
+
+    public function boards()
+    {   
+        return view('student.boards.index', ['user' => auth()->user()]);
+    }
+
+    public function subjects()
+    {   
+        return view('student.subjects.index');
+    }
+
+    public function books()
+    {   
+        return view('student.books.index');
+    }
+
+    public function past_papers()
+    {   
+        return view('student.past_papers.index');
+    }
 
     public function caie_olevel()
     {   

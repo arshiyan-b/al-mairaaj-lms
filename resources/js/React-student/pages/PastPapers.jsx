@@ -1,8 +1,11 @@
 import React from 'react'
 
-const PastPapers = () => {
+const PastPapers = ({ user }) => {
   return (
-    <div>PastPapers</div>
+    <div>
+      <h1>PastPapers</h1>
+      <p>User: {user.name}</p>
+    </div>
   )
 }
 

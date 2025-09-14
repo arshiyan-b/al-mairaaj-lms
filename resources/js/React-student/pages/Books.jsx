@@ -1,8 +1,11 @@
 import React from 'react'
 
-const Books = () => {
+const Books = ({ user }) => {
   return (
-    <div>Books</div>
+    <div>
+      <h1>Books</h1>
+      <p>User: {user.name}</p>
+    </div>
   )
 }
 

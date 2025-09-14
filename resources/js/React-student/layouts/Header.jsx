@@ -60,42 +60,42 @@ export const Header = ({ username }) => {
           </div>
 
           {/* Right side: Profile */}
-<div className="flex items-center gap-2">
-  {/* Username text (hidden on mobile) */}
-  <p className="hidden md:block">{username.name}</p>
+          <div className="flex items-center gap-2">
+            {/* Username text (hidden on mobile) */}
+            <p className="hidden md:block">{username.name}</p>
 
-  {/* Avatar dropdown */}
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <Button
-        variant="ghost"
-        className="relative h-8 w-8 rounded-full hover:bg-gray-700"
-        aria-label="User profile"
-      >
-        <Avatar className="h-8 w-8">
-          <AvatarImage src="" alt={username.name} />
-          <AvatarFallback className="bg-teal-700 text-white text-sm">
-            {username.name?.charAt(0).toUpperCase() || "H"}
-          </AvatarFallback>
-        </Avatar>
-      </Button>
-    </DropdownMenuTrigger>
+            {/* Avatar dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full hover:bg-gray-700"
+                  aria-label="User profile"
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="" alt={username.name} />
+                    <AvatarFallback className="bg-teal-700 text-white text-sm">
+                      {username.name?.charAt(0).toUpperCase() || "H"}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
 
-    <DropdownMenuContent className="w-56" align="end">
-      <DropdownMenuItem>
-        <User className="h-4 w-4 mr-2" /> My Profile
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Settings className="h-4 w-4 mr-2" /> Settings
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem className="text-red-600">
-        <LogOut className="h-4 w-4 mr-2" /> Logout
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-</div>
-</div>
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuItem>
+                  <User className="h-4 w-4 mr-2" /> My Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="h-4 w-4 mr-2" /> Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="h-4 w-4 mr-2" /> Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
 
       
       </div>

@@ -1,7 +1,7 @@
 @extends('student.layout.app')
 
 @section('title')
-    Dashboard
+    Boards
 @endsection
 
 @section('content')
