@@ -35,7 +35,7 @@ export const Navbar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 <li key={item.label}>
                   <Button
                     variant="ghost"
-                    className={`text-white hover:bg-gray-800 px-3 py-2 text-sm font-medium transition-colors ${
+                    className={`text-white hover:bg-gray-400 hover:text-black px-3 py-2 text-sm font-medium transition-colors ${
                       activeLabel === item.label ? "bg-gray-700 text-teal-400" : ""
                     }`}
                     onClick={() => goto(item.href)}

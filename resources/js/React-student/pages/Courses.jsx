@@ -1,148 +1,143 @@
-import { BookOpen, Clock, Users } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { Plus, CheckCircle, Clock, Search } from "lucide-react";
 
-const allCourses = [
+const coursesData = [
   {
     id: 1,
-    title: "Advanced React Development",
-    instructor: "Dr. Sarah Johnson",
-    progress: 75,
-    duration: "12 weeks",
-    students: 1200,
-    status: "In Progress",
-    description: "Master advanced React patterns, hooks, and performance optimization techniques.",
-    image: "https://images.unsplash.com/photo-1633356122544-cd6575953051?q=80&w=2940&auto=format&fit=crop"
+    title: "Move from Graphic Designer to UX DESIGNER - Class 1",
+    date: "Dec 10",
+    location: "HCMC",
+    students: "8/10",
+    
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6t1ekfp0JJWEqrpRtQyn22uqxCcTBhLfAMJi1baT1TVBx116Kvt_mqhk7gAkaBaL7tCo&usqp=CAU",
   },
   {
     id: 2,
-    title: "JavaScript Fundamentals",
-    instructor: "Prof. Michael Chen",
-    progress: 100,
-    duration: "8 weeks",
-    students: 2500,
-    status: "Completed",
-    description: "Complete guide to JavaScript from basics to advanced concepts.",
-    image: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?q=80&w=2711&auto=format&fit=crop"
+    title: "Move from Graphic Designer to UX DESIGNER - Class 2",
+    date: "Dec 15",
+    location: "HCMC",
+    students: "10/10",
+    
+    img: "https://via.placeholder.com/300x200",
   },
   {
     id: 3,
-    title: "Python for Data Science",
-    instructor: "Dr. Emily Rodriguez",
-    progress: 45,
-    duration: "16 weeks",
-    students: 890,
-    status: "In Progress",
-    description: "Learn Python programming for data analysis and machine learning.",
-    image: "https://images.unsplash.com/photo-1605379399843-5870eea9b7be?q=80&w=2940&auto=format&fit=crop"
+    title: "User Experience Design For Mobile Apps & Websites",
+    date: "Dec 18",
+    location: "HCMC",
+    students: "10/10",
+   
+    img: "https://via.placeholder.com/300x200",
   },
   {
     id: 4,
-    title: "Database Design & SQL",
-    instructor: "Prof. David Kumar",
-    progress: 0,
-    duration: "10 weeks",
-    students: 675,
-    status: "Not Started",
-    description: "Master database design principles and advanced SQL queries.",
-    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=2831&auto=format&fit=crop"
-  }
+    title: "The Complete Android Material Design Course",
+    date: "Jan 10",
+    location: "HCMC",
+    students: "3/10",
+    status: "draft",
+    img: "https://via.placeholder.com/300x200",
+  },
+  {
+    id: 5,
+    title: "How To Create a Simple Website With Bootstrap 4",
+    date: "Jan 20",
+    location: "HCMC",
+    students: "8/10",
+    
+    img: "https://via.placeholder.com/300x200",
+  },
+  {
+    id: 6,
+    title: "Become a UI/UX Designer - Everything You Need to Know",
+    date: "Feb 2",
+    location: "HCMC",
+    students: "10/10",
+   
+    img: "https://via.placeholder.com/300x200",
+  },
 ];
 
-const getStatusColor = (status) => {
-  switch (status) {
-    case 'Completed': return 'bg-green-500 text-white dark:bg-green-600';
-    case 'In Progress': return 'bg-blue-500 text-white dark:bg-blue-600';
-    case 'Not Started': return 'bg-gray-500 text-white dark:bg-gray-600';
-    default: return 'bg-gray-500 text-white dark:bg-gray-600';
-  }
-};
+export default function MyCourses() {
+  const [search, setSearch] = useState("");
 
-const Courses = () => {
+  // 🔎 Filter courses by search
+  const filteredCourses = coursesData.filter((course) =>
+    course.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">All Courses</h1>
-          <p className="mt-2 text-muted-foreground">Explore and manage your learning journey</p>
-        </div>
+    <div className="min-h-screen bg-white px-8 py-10">
+      {/* Header */}
+      <div className="text-center mb-6">
+        <h1 className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r text-black bg-clip-text">
+          Explore Our Courses
+        </h1>
+        <p className="text-gray-600 mt-1 text-sm md:text-base">
+          Find the perfect course across multiple subjects.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {allCourses.map((course) => (
-            <Card key={course.id} className="bg-card/40 backdrop-blur-md border border-border/20 shadow-lg relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:border-border/50">
-              <div className="relative aspect-[16/9] w-full overflow-hidden">
-                <img 
-                  src={course.image} 
-                  alt={course.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                
-                <div className="absolute bottom-4 left-4">
-                  <Badge className={getStatusColor(course.status)}>
-                    {course.status}
-                  </Badge>
+      {/* 🔍 Search Bar */}
+      <div className="relative mb-8 max-w-md">
+        <Search
+          size={20}
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+        />
+        <input
+          type="text"
+          placeholder="Search courses..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+
+      {/* Courses Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
+            <div
+              key={course.id}
+              className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden relative"
+            >
+              {/* Status Icon */}
+              {course.status === "completed" && (
+                <div className="absolute top-3 right-3 bg-green-500 text-white p-1 rounded-full">
+                  <CheckCircle size={20} />
+                </div>
+              )}
+              {course.status === "draft" && (
+                <div className="absolute top-3 right-3 bg-yellow-500 text-white p-1 rounded-full">
+                  <Clock size={20} />
+                </div>
+              )}
+
+              <img
+                src={course.img}
+                alt={course.title}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-5">
+                <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">
+                  {course.title}
+                </h3>
+                <p className="text-sm text-gray-500 mb-4">by Herman Wong</p>
+
+                <div className="flex justify-between text-sm text-gray-500">
+                  <p>👥 {course.students}</p>
+                  <p>📅 {course.date}</p>
+                  <p>📍 {course.location}</p>
                 </div>
               </div>
-              
-              <CardHeader className="py-4 px-6 space-y-1">
-                <CardTitle className="text-lg font-semibold leading-tight text-foreground line-clamp-1">{course.title}</CardTitle>
-                <p className="text-sm text-muted-foreground line-clamp-1">{course.instructor}</p>
-              </CardHeader>
-              
-              <CardContent className="px-6 pb-4 space-y-4 text-sm">
-                <p className="text-muted-foreground line-clamp-2">
-                  {course.description}
-                </p>
-                
-                <div className="grid grid-cols-3 gap-2 text-center text-muted-foreground text-xs">
-                  <div className="flex flex-col items-center">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span>{course.lessons || 10} Lessons</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span>{course.duration}</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Users className="h-4 w-4 text-primary" />
-                    <span>{course.students || 'N/A'} Students</span>
-                  </div>
-                </div>
-
-                {course.progress > 0 && (
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted-foreground">Progress</span>
-                      <span className="font-medium text-foreground">{course.progress}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div 
-                        className="bg-primary h-full rounded-full transition-all duration-500"
-                        style={{ width: `${course.progress}%` }}
-                      />
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-              
-              <div className="p-6 pt-0">
-                <Button 
-                  className="w-full rounded-md shadow-sm" 
-                  variant={course.status === 'Completed' ? 'outline' : 'default'}
-                >
-                  {course.status === 'Completed' ? 'Review Course' : 
-                   course.status === 'In Progress' ? 'Continue Learning' : 'Enroll Now'}
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </main>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-center col-span-full">
+            No courses found matching your search.
+          </p>
+        )}
+      </div>
     </div>
   );
-};
-
-export default Courses;
+}

@@ -27,7 +27,7 @@ export const Header = ({ username }) => {
   };
 
   return (
-    <header className="bg-header border-b border-gray-700 sticky ">
+    <header className="bg-white border-b border-gray-700  top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side: Mobile menu + logo */}
@@ -42,7 +42,10 @@ export const Header = ({ username }) => {
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
 
+            {/* <span className="text-xl font-bold text-teal-700">AL-Mairaaj</span> */}
+            <a href="/dashboard" className="hover:opacity-80 transition">
             <span className="text-xl font-bold text-teal-700">AL-Mairaaj</span>
+           </a>
           </div>
 
           {/* Search Bar */}

@@ -107,7 +107,8 @@ const Dashboard = ({ user }) => {
   ];
 
   return (
-    <div className="flex-1 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="flex-1 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen relative z-0">
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="md:col-span-2 space-y-6">
