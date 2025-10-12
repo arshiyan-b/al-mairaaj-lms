@@ -111,7 +111,19 @@ class LoginController extends Controller
             ]);
         }
 
-
         return redirect('login')->with('success', 'Teacher registered successfully!');
+    }
+
+    public function login_two()
+    {
+        return view('student.login');
+    }
+    public function register_two()
+    {
+        return view('student.register');
+    }
+    public function otp_two()
+    {
+        return view('student.otp');
     }
 }

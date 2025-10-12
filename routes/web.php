@@ -20,6 +20,10 @@ Route::post('/teacher-register', [LoginController::class, 'teacher_register'])->
 
 Route::get('/chat', [ChatbotController::class, 'chat'])->name('chat');
 
+Route::get('/login-two', [LoginController::class, 'login_two'])->name('login.two');
+Route::get('/register-two', [LoginController::class, 'register_two'])->name('register.two');
+Route::get('/otp-two', [LoginController::class, 'otp_two'])->name('otp.two');
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.logout'); 
