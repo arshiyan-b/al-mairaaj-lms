@@ -43,13 +43,13 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 
-    public function register(Request $request)
+    public function teacher_register(Request $request)
     {
         $subjects = Subject::all();
         return view ('register', compact('subjects'));
     }
 
-    public function teacher_register(Request $request)
+    public function teacher_register_store(Request $request)
     {
         $request->validate([
             'teacher_name' => 'required|string|max:50',
@@ -114,15 +114,15 @@ class LoginController extends Controller
         return redirect('login')->with('success', 'Teacher registered successfully!');
     }
 
-    public function login_two()
+    public function login()
     {
         return view('student.login');
     }
-    public function register_two()
+    public function register()
     {
         return view('student.register');
     }
-    public function otp_two()
+    public function otp()
     {
         return view('student.otp');
     }

@@ -12,17 +12,17 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/login-two', [LoginController::class, 'showLoginForm'])->name('login');
 
 Route::post('/log-in', [LoginController::class, 'authenticate'])->name('admin.auth');
-Route::get('/register/teacher', [LoginController::class, 'register'])->name('register');
-Route::post('/teacher-register', [LoginController::class, 'teacher_register'])->name('teacher.register');
+Route::get('/register/teacher', [LoginController::class, 'teacher_register'])->name('register');
+Route::post('/teacher-register', [LoginController::class, 'teacher_register_store'])->name('teacher.register');
 
 Route::get('/chat', [ChatbotController::class, 'chat'])->name('chat');
 
-Route::get('/login-two', [LoginController::class, 'login_two'])->name('login.two');
-Route::get('/register-two', [LoginController::class, 'register_two'])->name('register.two');
-Route::get('/otp-two', [LoginController::class, 'otp_two'])->name('otp.two');
+Route::get('/login', [LoginController::class, 'login'])->name('login.two');
+Route::get('/register', [LoginController::class, 'register'])->name('register.two');
+Route::get('/otp', [LoginController::class, 'otp'])->name('otp.two');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 

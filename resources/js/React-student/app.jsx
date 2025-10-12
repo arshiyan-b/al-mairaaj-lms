@@ -54,9 +54,9 @@ function App() {
     <BrowserRouter>
       <MainLayout user={userData}>
         <Routes>
-          <Route path="/login-two" element={<Login />} />
-          <Route path="/register-two" element={<Register />} />
-          <Route path="/otp-two" element={<Otp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/otp" element={<Otp />} />
           <Route path="/dashboard" element={<Dashboard user={userData} />} />
           <Route path="/courses" element={<Courses user={userData}/>} />
           <Route path="/boards" element={<Boards user={userData}/>} />
