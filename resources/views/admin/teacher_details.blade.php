@@ -17,28 +17,28 @@
     <div class="card-body">
         <dl class="row">
             <dt class="col-sm-3">Name</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_name }}</dd>
+            <dd class="col-sm-9">{{ $teacher->name }}</dd>
 
             <dt class="col-sm-3">CNIC</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_cnic }}</dd>
+            <dd class="col-sm-9">{{ $teacher->cnic }}</dd>
 
             <dt class="col-sm-3">Gender</dt>
-            <dd class="col-sm-9">{{ ucfirst($teacher->teacher_gender) }}</dd>
+            <dd class="col-sm-9">{{ ucfirst($teacher->gender) }}</dd>
 
             <dt class="col-sm-3">Phone</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_phone_no }}</dd>
+            <dd class="col-sm-9">{{ $teacher->phone_number }}</dd>
 
             <dt class="col-sm-3">WhatsApp</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_whatsapp_no }}</dd>
+            <dd class="col-sm-9">{{ $teacher->whatsapp_number }}</dd>
 
             <dt class="col-sm-3">Email</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_email }}</dd>
+            <dd class="col-sm-9">{{ $teacher->email }}</dd>
 
             <dt class="col-sm-3">City</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_city }}</dd>
+            <dd class="col-sm-9">{{ $teacher->city }}</dd>
 
             <dt class="col-sm-3">Address</dt>
-            <dd class="col-sm-9">{{ $teacher->teacher_address }}</dd>
+            <dd class="col-sm-9">{{ $teacher->address }}</dd>
 
             <dt class="col-sm-3">Highest Degree</dt>
             <dd class="col-sm-9">{{ $teacher->highest_degree }}</dd>
@@ -146,9 +146,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.teacher_assign_subjects',  $teacher->teacher_id) }}">
+                <form method="POST" action="{{ route('admin.teacher_assign_subjects',  $teacher->id) }}">
                 @csrf
-                    <input type="hidden" name="teacher_id" value="{{ $teacher->teacher_id }}">
+                    <input type="hidden" name="teacher_id" value="{{ $teacher->id }}">
                     <div class="mb-3">
                         <label for="teacherBoards" class="form-label">Boards</label>
                         <select name="teacherBoards" class="form-control" id="teacherBoards">

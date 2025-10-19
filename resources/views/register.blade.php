@@ -83,16 +83,18 @@
 
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <label>Teacher Name</label>
+                        <label>Name</label>
                         <input type="text" class="form-control" name="teacher_name" required>
                     </div>
                     <div class="col-md-4">
-                        <label>CNIC</label>
+                        <label>CNIC
+                            <span class="text-muted small">(13 digits without dashes)</span>
+                        </label>
                         <input type="text" class="form-control" name="teacher_cnic" required>
                     </div>
                     <div class="col-md-4">
                         <label>Gender</label>
-                        <select class="form-control" name="teacher_gender">
+                        <select class="form-control" name="teacher_gender" required>
                             <option value="" selected disabled>Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -103,49 +105,49 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label>Phone No</label>
+                        <label>Phone Number</label>
                         <input type="text" class="form-control" name="teacher_phone_no" required>
                     </div>
                     <div class="col-md-4">
-                        <label>WhatsApp No</label>
-                        <input type="text" class="form-control" name="teacher_whatsapp_no">
+                        <label>WhatsApp Number</label>
+                        <input type="text" class="form-control" name="teacher_whatsapp_no" required>
                     </div>
                     <div class="col-md-4">
                         <label>Email</label>
-                        <input type="email" class="form-control" name="teacher_email">
+                        <input type="email" class="form-control" name="teacher_email" required>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label>City</label>
-                        <input type="text" class="form-control" name="teacher_city">
+                        <input type="text" class="form-control" name="teacher_city" required>
                     </div>
                     <div class="col-md-8">
                         <label>Address</label>
-                        <textarea class="form-control" name="teacher_address" rows="2"></textarea>
+                        <textarea class="form-control" name="teacher_address" rows="2" required></textarea>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label>Highest Degree</label>
-                        <input type="text" class="form-control" name="highest_degree">
+                        <input type="text" class="form-control" name="highest_degree" required>
                     </div>
                     <div class="col-md-4">
                         <label>Field of Study</label>
-                        <input type="text" class="form-control" name="field_of_study">
+                        <input type="text" class="form-control" name="field_of_study" required>
                     </div>
                     <div class="col-md-4">
                         <label>University</label>
-                        <input type="text" class="form-control" name="university">
+                        <input type="text" class="form-control" name="university" required>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label>Experience</label>
-                        <select class="form-control" name="experience">
+                        <select class="form-control" name="experience" required>
                             <option value="" selected disabled>Select Experience</option>
                             <option value="Less than 1 year">Less than 1 year</option>
                             <option value="1-2 years">1-2 years</option>
@@ -156,7 +158,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Preferred Board</label>
-                        <select class="form-control" name="preferred_board[]" id="preferred_board" multiple>
+                        <select class="form-control" name="preferred_board[]" id="preferred_board" multiple required>
                             <option value="CAIE">CAIE</option>
                             <option value="Pearson Edexcel">Pearson Edexcel</option>
                             <option value="AKU - EB">AKU - EB</option>
@@ -166,7 +168,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Subjects</label>
-                        <select class="form-control" name="subjects[]" id="subjects" multiple>
+                        <select class="form-control" name="subjects[]" id="subjects" multiple required>
                             @foreach ($subjects as $subject)
                                 <option value="{{ $subject->subject_key }}">{{ $subject->subject_name }}</option>
                             @endforeach
@@ -177,7 +179,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label>Grades</label>
-                        <select class="form-control" name="grades[]" id="grades" multiple>
+                        <select class="form-control" name="grades[]" id="grades" multiple required>
                             <option value="SSC I">SSC I</option>
                             <option value="SSC II">SSC II</option>
                             <option value="HSSC I">HSSC I</option>
@@ -193,7 +195,9 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="picture">Upload Picture<br>By uploading this image, you grant permission for it to be used for marketing purposes on social media platforms.</label>
+                        <label for="picture">Upload Picture
+                            <span class="text-muted small">(By uploading this image, you grant permission for it to be used for marketing purposes on social media platforms.)</span>
+                        </label>
                         <input type="file" class="form-control" name="picture" id="picture" accept="image/*" required>
                     </div>
                 </div>

@@ -10,18 +10,17 @@ class Teacher extends Model
 {
     public $timestamps = true;
     use HasFactory;
-    protected $primaryKey = 'teacher_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'teacher_id',
-        'teacher_name',
-        'teacher_cnic',
-        'teacher_gender',
-        'teacher_city',
-        'teacher_phone_no',
-        'teacher_whatsapp_no',
-        'teacher_email',
-        'teacher_address',
+        'name',
+        'cnic',
+        'gender',
+        'city',
+        'phone_no',
+        'whatsapp_no',
+        'email',
+        'address',
         'highest_degree',
         'field_of_study',
         'university',

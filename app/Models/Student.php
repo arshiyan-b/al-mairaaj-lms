@@ -7,20 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
-    public $timestamps = true;
     use HasFactory;
-    protected $primaryKey = 'student_id';
+
+    protected $primaryKey = 'id'; 
+    public $timestamps = true;
 
     protected $fillable = [
-        'student_id' ,
-        'student_name',
-        'student_dob',
-        'student_cnic',
-        'student_city',
-        'student_phone_no',
-        'student_whatsapp_no',	
-        'student_email',
-        'student_address',
-        'user_created'
+        'first_name',
+        'middle_name',
+        'last_name',
+        'father_name',
+        'phone_number',
+        'whatsapp_number',
+        'email',
+        'date_of_birth',
+        'address',
+        'city',
+        'country',
+        'otp_sent',
+        'otp_verified',
+        'user_created',
     ];
 }

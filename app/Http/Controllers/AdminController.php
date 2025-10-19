@@ -74,49 +74,6 @@ class AdminController extends Controller
         return view('admin.student', compact('studentList'));
     }
 
-    public function student_store(Request $request)
-    {
-        $validated = $request->validate([
-            'studentName' => 'required|string|max:255',
-            'studentPhoneNo' => 'required|string|max:15',
-            'studentWhatsappNo' => 'nullable|string|max:15',
-            'studentEmail' => 'required|email|unique:students,student_email',
-            'studentCNIC' => 'required|string|max:20|unique:students,student_cnic',
-        ]);
-
-        Student::create([
-            'student_name' => $validated['studentName'],
-            'student_phone_no' => $validated['studentPhoneNo'],
-            'student_whatsapp_no' => $validated['studentWhatsappNo'],
-            'student_email' => $validated['studentEmail'],
-            'student_cnic' => $validated['studentCNIC'],
-        ]);
-
-        return redirect()->back()->with('success', 'Student added successfully!');
-    }
-    public function student_user(Request $request)
-    {
-        $validated = $request->validate([
-            'studentEmail' => 'required|string|max:255',
-            'studentPassword' => 'required|string|max:15',
-            'student_id' => 'required|exists:students,student_id',
-        ]);
-
-        $student = Student::findOrFail($request->student_id);
-    
-        $student->user_created = true;
-        $student->save();
-
-        $user = new User();
-        $user->name = $student->student_name;
-        $user->email = $validated['studentEmail'];
-        $user->password = Hash::make($validated['studentPassword']); 
-        $user->role = 'student'; 
-        $user->student_id = $student->student_id; 
-        $user->save();
-
-        return redirect()->back()->with('success', 'Student added successfully!');
-    }
     public function teacher()
     {
         $teacherList = Teacher::all();
@@ -125,30 +82,10 @@ class AdminController extends Controller
             'subjects' => $this->subjects, 
         ]);
     }
-    public function teacher_store(Request $request)
-    {
-        $validated = $request->validate([
-            'teacherName' => 'required|string|max:255',
-            'teacherPhoneNo' => 'required|string|max:15',
-            'teacherWhatsappNo' => 'nullable|string|max:15',
-            'teacherEmail' => 'required|email|unique:teachers,teacher_email',
-            'teacherCNIC' => 'required|string|max:20|unique:teachers,teacher_cnic',
-        ]);
-
-        Teacher::create([
-            'teacher_name' => $validated['teacherName'],
-            'teacher_phone_no' => $validated['teacherPhoneNo'],
-            'teacher_whatsapp_no' => $validated['teacherWhatsappNo'],
-            'teacher_email' => $validated['teacherEmail'],
-            'teacher_cnic' => $validated['teacherCNIC'],
-        ]);
-
-        return redirect()->back()->with('success', 'Teacher added successfully!');
-    }
 
     public function teacher_show($id)
     {
-        $teacher = Teacher::where('teacher_id', $id)->first();
+        $teacher = Teacher::where('id', $id)->first();
         $docs = TeacherDoc::where('teacher_id', $id)->get();
         $classes = AllowedClass::where('teacher_id', $id)->get();
 

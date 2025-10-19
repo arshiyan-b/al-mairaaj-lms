@@ -15,7 +15,7 @@ Route::get('/', function () {
 Route::get('/login-two', [LoginController::class, 'showLoginForm'])->name('login');
 
 Route::post('/log-in', [LoginController::class, 'authenticate'])->name('admin.auth');
-Route::get('/register/teacher', [LoginController::class, 'teacher_register'])->name('register');
+Route::get('/register-as-a-teacher', [LoginController::class, 'teacher_register'])->name('register');
 Route::post('/teacher-register', [LoginController::class, 'teacher_register_store'])->name('teacher.register');
 
 Route::get('/chat', [ChatbotController::class, 'chat'])->name('chat');
@@ -31,11 +31,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/admin/students', [AdminController::class, 'student'])->name('admin.student');
-    Route::post('/admin/students/store', [AdminController::class, 'student_store'])->name('admin.student_store');
-    Route::post('/admin/students/user', [AdminController::class, 'student_user'])->name('admin.student_user');
- 
+
     Route::get('/admin/teachers', [AdminController::class, 'teacher'])->name('admin.teacher');
-    Route::post('/admin/teachers/store', [AdminController::class, 'teacher_store'])->name('admin.teacher_store');
     Route::get('/admin/teachers/{teacher}', [AdminController::class, 'teacher_show'])->name('admin.teachers_show');
     Route::post('admin/teacher/{id}/assign-subjects', [AdminController::class, 'teacher_assign_subjects'])->name('admin.teacher_assign_subjects');
     Route::delete('admin/teacher/{id}/class-destroy', [AdminController::class, 'teacher_class_destroy'])->name('admin.teacher_class_destroy');
