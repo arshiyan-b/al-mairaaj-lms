@@ -46,7 +46,7 @@ class LoginController extends Controller
     public function teacher_register(Request $request)
     {
         $subjects = Subject::all();
-        return view ('register', compact('subjects'));
+        return view ('register_as_a_teacher', compact('subjects'));
     }
 
     public function teacher_register_store(Request $request)
@@ -111,12 +111,17 @@ class LoginController extends Controller
             ]);
         }
 
-        return redirect('login')->with('success', 'Teacher registered successfully!');
+        return redirect('login.rwo')->with('success', 'Teacher registered successfully!');
     }
 
     public function login()
     {
         return view('student.login');
+    }
+
+    public function register_authenticate(Request $request)
+    {
+        dd($request);
     }
     public function register()
     {

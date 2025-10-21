@@ -4,6 +4,7 @@ import logo from "../assests/logo.png"; // your Al Mairaaj logo
 import sideImage from "../assests/sideimage.png"; // right side image
 
 export default function Login() {
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-200 to-teal-400 p-4">
       <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full">
