@@ -91,32 +91,134 @@ export default function Register() {
 
         {/* Registration Form */}
         <form onSubmit={handleRegister} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {[
-            { name: "first_name", label: "First Name", required: true },
-            { name: "middle_name", label: "Middle Name" },
-            { name: "last_name", label: "Last Name", required: true },
-            { name: "father_name", label: "Father Name", required: true },
-            { name: "email", label: "Email address", type: "email", required: true },
-            { name: "phone", label: "Phone Number", required: true },
-            { name: "password", label: "Password", type: "password", required: true },
-            { name: "password_confirmation", label: "Confirm Password", type: "password", required: true },
-          ].map((field, i) => (
-            <div key={i}>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
-                {field.label} {field.required && <span className="text-red-500">*</span>}
-              </label>
-              <input
-                name={field.name}
-                type={field.type || "text"}
-                placeholder={`Enter your ${field.label.toLowerCase()}`}
-                required={field.required}
-                value={formData[field.name]}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-            </div>
-          ))}
+          {/* First Name */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="first_name"
+              type="text"
+              placeholder="Enter your first name"
+              required
+              value={formData.first_name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
 
+          {/* Middle Name */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Middle Name
+            </label>
+            <input
+              name="middle_name"
+              type="text"
+              placeholder="Enter your middle name"
+              value={formData.middle_name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Last Name */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Last Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="last_name"
+              type="text"
+              placeholder="Enter your last name"
+              required
+              value={formData.last_name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Father Name */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Father Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="father_name"
+              type="text"
+              placeholder="Enter your father name"
+              required
+              value={formData.father_name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Email Address <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Phone Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="phone"
+              type="text"
+              placeholder="Enter your phone number"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Password <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              required
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-1">
+              Confirm Password <span className="text-red-500">*</span>
+            </label>
+            <input
+              name="password_confirmation"
+              type="password"
+              placeholder="Confirm your password"
+              required
+              value={formData.password_confirmation}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Submit Button */}
           <div className="md:col-span-2">
             <button
               type="submit"
