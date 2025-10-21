@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\TeacherDoc;
 use App\Models\User;
+use App\Mail\RegistrationOTP;
 
 class LoginController extends Controller
 {
@@ -121,7 +123,8 @@ class LoginController extends Controller
 
     public function register_authenticate(Request $request)
     {
-        dd($request);
+        \Log::info('Register request:', $request->all());
+        return response()->json(['message' => 'Logged successfully']);
     }
     public function register()
     {
