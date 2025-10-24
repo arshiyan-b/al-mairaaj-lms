@@ -5,11 +5,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Student;
+use App\Models\StudentUserOtp;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\TeacherDoc;
 use App\Models\User;
-use App\Mail\RegistrationOTP;
+use App\Mail\StudentRegistrationOTP;
 
 class LoginController extends Controller
 {
@@ -128,7 +130,7 @@ class LoginController extends Controller
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'father_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:students,email',
             'phone' => ['required','regex:/^(92\d{10})$/',],
             'password' => ['required','confirmed','regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'],
         ], [
@@ -149,13 +151,34 @@ class LoginController extends Controller
             'phone_number' => $request->phone,
         ]);
 
+        StudentUserOtp::create([
+            'student_id' => $student->id,
+            'email' => $student->email,
+            'password' => Hash::make($request->password),
+            'otp' => $otp,
+            'status' => 'pending',
+            'expires_at' => now()->addMinutes(10),
+        ]);
 
-        return response()->json(['message' => 'Logged successfully']);
+        Mail::to($student->email)->send(new StudentRegistrationOTP($otp));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'OTP has been sent to your email address.',
+            'redirect' => route('otp'),
+            'email' => $student->email,
+        ]);
     }
-    public function otp()
+    public function otp(Request $request)
     {
-        return view('student.otp');
+        if (!$request->has('email') || empty($request->email)) {
+            return redirect()->route('login')->with('error', 'Unauthorized access to OTP page.');
+        }
+
+        $email = $request->email;
+        return view('student.otp', compact('email'));
     }
+
     public function login()
     {
         return view('student.login');

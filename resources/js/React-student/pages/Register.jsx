@@ -52,23 +52,24 @@ export default function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.errors) {
-          setErrors(data.errors);
-        } else {
-          setErrorMsg(data.message || "Registration failed. Please try again.");
-        }
-      } else {
-        setSuccessMsg("Registration successful!");
-        setFormData({
-          first_name: "",
-          middle_name: "",
-          last_name: "",
-          father_name: "",
-          email: "",
-          phone: "",
-          password: "",
-          password_confirmation: "",
+        if (data.errors) setErrors(data.errors);
+        else setErrorMsg(data.message || "Registration failed. Please try again.");
+      } else if (data.status === "success") {
+        // save email temporarily (so OTP page can access it)
+        sessionStorage.setItem("otp_email", data.email);
+
+        // send POST to /otp route (Laravel expects POST)
+        await fetch(data.redirect, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+          },
+          body: JSON.stringify({ email: data.email }),
         });
+
+        // finally navigate user to /otp
+        window.location.href = "/otp";
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -76,8 +77,8 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
-
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-300 to-teal-500 p-6">

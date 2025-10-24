@@ -23,7 +23,7 @@ Route::get('/chat', [ChatbotController::class, 'chat'])->name('chat');
 Route::get('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/register/auth', [LoginController::class, 'register_authenticate'])->name('register.auth');
 
-Route::post('/otp', [LoginController::class, 'otp'])->name('otp');
+Route::get('/verify-otp', [LoginController::class, 'otp'])->name('otp');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 
 
