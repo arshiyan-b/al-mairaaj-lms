@@ -1,17 +1,76 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assests/logo.png";
 
 export default function Otp() {
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Get Laravel route + CSRF token from Blade
+  const appDiv = document.getElementById("app");
+  const otpVerifyRoute = `${appDiv?.dataset?.otpVerifyRoute}`;
+  const csrfToken = appDiv?.dataset?.csrf;
+  
+  console.log('OTP Verify Route:', otpVerifyRoute);
+  console.log('CSRF Token:', csrfToken);
+
   useEffect(() => {
-    const email = sessionStorage.getItem("otp_email");
-    if (!email) {
-      // redirect back if no email found
-      window.location.href = "/register";
+    // Get email from Laravel blade's data attribute
+    const el = document.getElementById("app");
+    console.log('OTP component mounted, app element:', el);
+    console.log('App dataset:', el?.dataset);
+    
+    if (el && el.dataset.email) {
+      setEmail(el.dataset.email);
+      console.log('Email set from dataset:', el.dataset.email);
+    } else {
+      // Try to get email from URL params as fallback
+      const urlParams = new URLSearchParams(window.location.search);
+      const emailFromUrl = urlParams.get('email');
+      if (emailFromUrl) {
+        setEmail(emailFromUrl);
+        console.log('Email set from URL params:', emailFromUrl);
+      }
     }
   }, []);
 
-  const email = sessionStorage.getItem("otp_email");
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const response = await fetch(otpVerifyRoute, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMsg(data.message || "OTP verification failed. Please try again.");
+      } else if (data.status === "success") {
+        setSuccessMsg(data.message);
+        // Redirect to dashboard
+        window.location.href = data.redirect;
+      }
+    } catch (error) {
+      setErrorMsg("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-200 to-teal-400 p-4">
@@ -20,13 +79,19 @@ export default function Otp() {
         <div className="flex flex-col items-center mb-6 text-center">
           <img src={logo} alt="Al Mairaaj" className="w-60 h-auto mb-2" />
           <p className="text-sm text-gray-500 mt-1">
-            OTP has been sent to <b>{email}</b>
+            {email
+              ? `OTP has been sent to ${email}`
+              : "Please enter your OTP to verify your account"}
           </p>
         </div>
 
+        {/* Feedback */}
+        {errorMsg && <div className="text-red-500 text-center mb-4">{errorMsg}</div>}
+        {successMsg && <div className="text-green-600 text-center mb-4">{successMsg}</div>}
+
         {/* Form */}
-        <form className="w-full flex flex-col gap-4">
-          {/* Email (readonly) */}
+        <form onSubmit={handleOtpSubmit} className="w-full flex flex-col gap-4">
+          {/* Email */}
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Email Address <span className="text-red-500">*</span>
@@ -34,9 +99,11 @@ export default function Otp() {
             <input
               name="email"
               type="email"
-              value={email || ""}
-              readOnly
-              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 text-gray-600 focus:outline-none cursor-not-allowed"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
             />
           </div>
 
@@ -49,16 +116,20 @@ export default function Otp() {
               name="otp"
               type="text"
               placeholder="Enter your OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
               required
+              maxLength="6"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 rounded-lg transition duration-200"
+            disabled={loading}
+            className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 rounded-lg transition duration-200 disabled:opacity-60"
           >
-            Submit
+            {loading ? "Verifying..." : "Verify OTP"}
           </button>
         </form>
 

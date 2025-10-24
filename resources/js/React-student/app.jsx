@@ -31,8 +31,8 @@ function App() {
       <Routes>
         {/* Routes OUTSIDE the layout */}
         <Route path="/login" element={<Login />} />
-        <Route path="/verify-otp" element={<Otp />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<Otp />} />
 
         {/* Routes INSIDE the layout */}
         <Route
