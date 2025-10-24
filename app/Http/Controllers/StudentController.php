@@ -41,15 +41,4 @@ class StudentController extends Controller
         return view('student.past_papers.index');
     }
 
-    public function caie_olevel()
-    {   
-        $courses = CaieCourse::where('live','1')->get();
-        return view('student.courses.caie_olevel', compact('courses'));
-    }
-
-    public function pearson_igcse()
-    {   
-        $courses = PearsonCourse::where('live','1')->get();
-        return view('student.courses.pearson_igcse', compact('courses'));
-    }
 }

@@ -8,6 +8,8 @@ export default function Register() {
   const registerRoute = `${appDiv.dataset.registerRoute}`;
   const csrfToken = appDiv.dataset.csrf;
 
+  const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     first_name: "",
     middle_name: "",
@@ -50,7 +52,11 @@ export default function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrorMsg(data.message || "Registration failed. Please try again.");
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          setErrorMsg(data.message || "Registration failed. Please try again.");
+        }
       } else {
         setSuccessMsg("Registration successful!");
         setFormData({
@@ -159,6 +165,9 @@ export default function Register() {
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Email Address <span className="text-red-500">*</span>
             </label>
+            {errors.email && (
+              <p className="text-red-500 text-xs mb-1">{errors.email}</p>
+            )}
             <input
               name="email"
               type="email"
@@ -175,6 +184,9 @@ export default function Register() {
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Phone Number <span className="text-red-500">*</span>
             </label>
+            {errors.phone && (
+              <p className="text-red-500 text-xs mb-1">{errors.phone}</p>
+            )}
             <input
               name="phone"
               type="text"
@@ -191,6 +203,9 @@ export default function Register() {
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Password <span className="text-red-500">*</span>
             </label>
+              {errors.password && (
+                <p className="text-red-500 text-xs mb-1">{errors.password}</p>
+              )}
             <input
               name="password"
               type="password"

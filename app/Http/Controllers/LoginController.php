@@ -113,25 +113,51 @@ class LoginController extends Controller
             ]);
         }
 
-        return redirect('login.rwo')->with('success', 'Teacher registered successfully!');
+        return redirect('login.two')->with('success', 'Teacher registered successfully!');
     }
 
-    public function login()
-    {
-        return view('student.login');
-    }
-
-    public function register_authenticate(Request $request)
-    {
-        \Log::info('Register request:', $request->all());
-        return response()->json(['message' => 'Logged successfully']);
-    }
     public function register()
     {
         return view('student.register');
     }
+
+    public function register_authenticate(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'father_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => ['required','regex:/^(92\d{10})$/',],
+            'password' => ['required','confirmed','regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'],
+        ], [
+            'email.unique' => 'This email is already registered.',
+            'phone.regex' => 'Phone number must start with +92 and be 12 digits long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.regex' => 'Password must be at least 8 characters long and include: one uppercase letter, one lowercase letter, one number, and one special character.'
+        ]);
+
+        $otp = rand(100000, 999999);
+
+        $student = Student::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'father_name' => $request->father_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone,
+        ]);
+
+
+        return response()->json(['message' => 'Logged successfully']);
+    }
     public function otp()
     {
         return view('student.otp');
+    }
+    public function login()
+    {
+        return view('student.login');
     }
 }
